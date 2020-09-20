@@ -6,7 +6,7 @@ def picks():
 	return render_template('picks.html')
 
 @app.route('/submit', methods = ['POST', 'GET'])
-def login():
+def submit():
 	picks = []
 	if request.method == 'POST':
 		user = request.form['name']
