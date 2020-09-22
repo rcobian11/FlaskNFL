@@ -1,0 +1,44 @@
+<!--test nfl site -->
+<!DOCTYPE html>
+<html>
+<script type="text/javascript">
+	function validateForm() {
+		var pick1 = document.forms['picks']['pick1'].value;
+		alert(pick1)
+		if (pick1 == "") {
+			alert("must make all picks");
+			return false;
+		}
+	}
+</script>
+	<head>
+		<title>NFL Picks</title>
+	</head>
+	<style>
+	span {
+		display: inline-block;
+		width: 60px;
+		height: 21px;
+	}
+	span_2 {
+		display: inline-block;
+		background-color: rgb(200,200,200);
+	}
+	</style>
+	<body>
+		<form method='post' action="http://localhost:5000/submit", name="picks", onsubmit="return validateForm()">
+		Name: <input type='text' name='name' value=''><br>
+		{% for team1,spread,team2 in picks %}
+			<input type='radio' name='pick1' value='{{team1}}'>
+			<span style='padding-right:20px;'>{{team1}}</span>
+			<span style='padding-right:10px;'>{{spread}}</span>
+			<span style='text-align: right'>{{team2}}</span>
+
+			<input type='radio' name='pick1' value='{{team2}}'
+			><br>
+		{% endfor %}
+
+		Points: <input type='text' name='points' value=''><br><input type='submit' name='submit' value='Submit'>
+		</form>
+	</body>
+</html>
