@@ -14,15 +14,19 @@ def picks():
 def submit():
 	picks = []
 	if request.method == 'POST':
-		user = request.form['name']
+		name = request.form['name']
 		for ctr in range(1,config_len+1):
 			pick = request.form['pick' + str(ctr)]
 			picks.append(pick)
 		points = request.form['points']
-		print(picks)
+		helper.submit_picks(name, picks, points)
 		return "done"
 	return 'done'
 if __name__ == '__main__':
 	#TODO get values from form and put them in a csv file
-	#incorporate scrapper.py using argparse
+	parser = argparse.ArgumentParser(description="build website for picks")
+	parser.add_argument("-u","--url",help="url of spreads",type=str)
+	parser.add_argument("-g","--games",help="number of games this week",type=int)
+	args = parser.parse_args()
+	scrapper.build_config(args.url,args.games)	
 	app.run(debug = True)

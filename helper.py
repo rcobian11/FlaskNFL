@@ -21,3 +21,11 @@ def gen_nflpick():
 		nflpicks.write('"TIE\n-\nBRK"')
 	nflpicks.close()
 	return(picks)
+
+def submit_picks(name, picks, points):
+	file = open("picks.csv", 'a')
+	file.write("\n")
+	file.write(name + ",")
+	for pick in picks:
+		file.write(pick + ",")
+	file.write(points)
