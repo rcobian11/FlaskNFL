@@ -20,10 +20,9 @@ def submit():
 			picks.append(pick)
 		points = request.form['points']
 		helper.submit_picks(name, picks, points)
-		return "done"
+		return "<h3 style='color:green'>Your picks have been submited </h>"
 	return 'done'
 if __name__ == '__main__':
-	#TODO get values from form and put them in a csv file
 	parser = argparse.ArgumentParser(description="build website for picks")
 	parser.add_argument("-u","--url",help="url of spreads",type=str)
 	parser.add_argument("-g","--games",help="number of games this week",type=int)
