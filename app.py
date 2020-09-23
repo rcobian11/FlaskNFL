@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, request, render_template
 import argparse
-import helper, scrapper
+import helper
 app = Flask(__name__)
 
 PICKS = helper.gen_nflpick()
@@ -22,10 +22,6 @@ def submit():
 		helper.submit_picks(name, picks, points)
 		return "<h3 style='color:green'>Your picks have been submited </h>"
 	return 'done'
+	
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser(description="build website for picks")
-	parser.add_argument("-u","--url",help="url of spreads",type=str, required=True)
-	parser.add_argument("-g","--games",help="number of games this week",type=int, required=True)
-	args = parser.parse_args()
-	scrapper.build_config(args.url,args.games)	
 	app.run(host='0.0.0.0')

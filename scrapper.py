@@ -65,3 +65,10 @@ def build_config(url,num_games):
                 point += 0.5
             config.write("{},-{},{}\n".format(team[1].upper(),str(point),team[0].upper()))
     config.close()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="build website for picks")
+    parser.add_argument("-u","--url",help="url of spreads",type=str, required=True)
+    parser.add_argument("-g","--games",help="number of games this week",type=int, required=True)
+    args = parser.parse_args()
+    scrapper.build_config(args.url,args.games)  
