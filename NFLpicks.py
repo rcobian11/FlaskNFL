@@ -24,8 +24,8 @@ def submit():
 	return 'done'
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description="build website for picks")
-	parser.add_argument("-u","--url",help="url of spreads",type=str)
-	parser.add_argument("-g","--games",help="number of games this week",type=int)
+	parser.add_argument("-u","--url",help="url of spreads",type=str, required=True)
+	parser.add_argument("-g","--games",help="number of games this week",type=int, required=True)
 	args = parser.parse_args()
 	scrapper.build_config(args.url,args.games)	
-	app.run(debug = True)
+	app.run(host='0.0.0.0')
