@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests
+import requests, argparse
 
 #gets the team name and returns as string
 def get_team(pos):

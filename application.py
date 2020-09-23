@@ -1,16 +1,16 @@
 from flask import Flask, redirect, url_for, request, render_template
 import argparse
 import helper
-app = Flask(__name__)
+application = Flask(__name__)
 
 PICKS = helper.gen_nflpick()
 config_len = helper.file_len("config.csv")
 
-@app.route('/')
+@application.route('/')
 def picks():
 	return render_template('ScriptPicks.html', picks=PICKS, ctr=range(1,config_len+1))
 
-@app.route('/submit', methods = ['POST', 'GET'])
+@application.route('/submit', methods = ['POST', 'GET'])
 def submit():
 	picks = []
 	if request.method == 'POST':
@@ -24,4 +24,4 @@ def submit():
 	return 'done'
 	
 if __name__ == '__main__':
-	app.run(host='0.0.0.0')
+	application.run()
