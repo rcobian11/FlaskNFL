@@ -8,7 +8,7 @@ def file_len(fname):
 
 def gen_nflpick():
 	picks = []
-	nflpicks = open("picks.csv", 'w')
+	nflpicks = open("/picks.csv", 'w')
 	with open('config.csv', newline = '') as csvfile:
 		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])
 		pickNum = 1
