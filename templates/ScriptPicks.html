@@ -41,7 +41,7 @@
 	}
 	</style>
 	<body>
-		<form method='post' action="http://localhost:5000/submit", name="picks", onsubmit="return validateForm()">
+		<form method='post' action="submit", name="picks", onsubmit="return validateForm()">
 		Name: <input type='text' name='name' value=''><br>
 		{% for team1,spread,team2 in picks %}
 			{% if loop.index is not divisibleby 2 %}
