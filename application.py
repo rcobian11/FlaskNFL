@@ -24,4 +24,4 @@ def submit():
 	return 'done'
 	
 if __name__ == '__main__':
-	application.run()
+	application.run(debug=True)
