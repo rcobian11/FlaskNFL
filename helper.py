@@ -31,7 +31,7 @@ def submit_picks(name, picks, points):
 		file.write(pick + ",")
 	file.write(points)
 	file.close()
-	upload_file("config.txt", "elasticbeanstalk-us-west-1-282676831818")
+	upload_file("picks.csv", "elasticbeanstalk-us-west-1-282676831818")
 
 def upload_file(file, bucket):
 	s3_client = boto3.client('s3')
