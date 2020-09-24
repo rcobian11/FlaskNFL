@@ -8,22 +8,27 @@ def file_len(fname):
     return i + 1
 
 def gen_nflpick():
-	picks = []
 	nflpicks = open("picks.csv", 'w')
 	with open('config.csv', newline = '') as csvfile:
 		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])
 		pickNum = 1
 		nflpicks.write(",")
 		for row in reader:
-			picks.append((row['FAV'], row['SPREAD'], row['UNDER']))
 			nflpicks.write('"{}\n{}\n{}",'.format(row['FAV'],
 												row['SPREAD'],
 												row['UNDER']))
 		nflpicks.write('"TIE\n-\nBRK"')
 	nflpicks.close()
-	return(picks)
 
-def submit_picks(name, picks, points):
+def get_picks():
+	picks = []
+	with open('config.csv', newline = '') as csvfile:
+		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])
+		for row in reader:
+			picks.append((row['FAV'], row['SPREAD'], row['UNDER']))
+	return picks
+
+def submit_picks(name, picks, points, dev):
 	file = open("picks.csv", 'a')
 	file.write("\n")
 	file.write(name + ",")
@@ -31,7 +36,8 @@ def submit_picks(name, picks, points):
 		file.write(pick + ",")
 	file.write(points)
 	file.close()
-	upload_file("picks.csv", "elasticbeanstalk-us-west-1-282676831818")
+	if(not dev):
+		upload_file("picks.csv", "elasticbeanstalk-us-west-1-282676831818")
 
 def upload_file(file, bucket):
 	s3_client = boto3.client('s3')
