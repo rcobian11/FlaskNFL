@@ -53,7 +53,7 @@ def get_nflpicks():
 			tmp = []
 			for k,v in row.items():
 				if(not ctr):
-					header.append(k)
+					header.append(k.split('\n'))
 				tmp.append(v)
 			nflpicks.append(tmp)
 			ctr = 1

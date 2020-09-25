@@ -27,8 +27,7 @@ def submit():
 @application.route('/gen_config')
 def gen_config():
 	nflpicks,header = helper.get_nflpicks()
-	print(nflpicks)
-	return render_template("gen_config.html", nflpicks=nflpicks)
+	return render_template("gen_config.html", nflpicks=nflpicks,header=header)
 
 @application.route('/gen_submit', methods = ['POST', 'GET'])
 def gen_submit():
