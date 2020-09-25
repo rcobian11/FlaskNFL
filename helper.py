@@ -7,11 +7,11 @@ def file_len(fname):
 	@return int: Length of file as int
 	checks length of file and returns value
 	'''
-    with open(fname) as f:
-        for i, l in enumerate(f):
-            pass
-    f.close()
-    return i + 1
+	with open(fname) as f:
+		for i, l in enumerate(f):
+			pass
+	f.close()
+	return i + 1
 
 def gen_nflpick():
 	'''
