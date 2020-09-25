@@ -1,7 +1,7 @@
 # NFL Picks
 Web app which gets picks from user and stores selection in a csv file. Python Flask backend html/js front end(Looking to incorporate angularJS).
 
-## usage
+## Usage
 ### AWS ElasticBeanstalk (Production)
 If deployed to AWS Elastic Beanstalk Production version will be ran and picks.csv will be stored in aws S3 bucket.
 
