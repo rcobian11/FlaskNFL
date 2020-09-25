@@ -91,17 +91,20 @@ def get_nflpicks():
 	'''
 	header = []
 	nflpicks = []
-	with open('picks.csv', newline = '') as csvfile:
-		reader = csv.DictReader(csvfile)
-		ctr = 0
-		for row in reader:
-			tmp = []
-			for k,v in row.items():
-				if(not ctr):
-					header.append(k.split('\n'))
-				tmp.append(v)
-			nflpicks.append(tmp)
-			ctr = 1
+	try:
+		with open('picks.csv', newline = '') as csvfile:
+			reader = csv.DictReader(csvfile)
+			ctr = 0
+			for row in reader:
+				tmp = []
+				for k,v in row.items():
+					if(not ctr):
+						header.append(k.split('\n'))
+					tmp.append(v)
+				nflpicks.append(tmp)
+				ctr = 1
+	except FileNotFoundError:
+		return nflpicks,header
 	return nflpicks,header
 
 def get_log():
@@ -110,7 +113,10 @@ def get_log():
 	reads entries from log.txt and return them in an array
 	'''
 	entry = []
-	log = open('log.txt', 'r')
-	for line in log:
-		entry.append(line.split(":"))
+	try:
+		log = open('log.txt', 'r')
+		for line in log:
+			entry.append(line.split(":"))
+	except FileNotFoundError:
+		return entry
 	return entry

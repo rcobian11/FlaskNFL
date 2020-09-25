@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+	td {
+		text-align: center;
+	}
+</style>
+	<body>
+		<h1>Table of picks</h1><br>
+		<table border = 1 style="width:45%">
+			<tr>
+				{% for data in header %}
+					<th>
+					{% for part in data %}
+						{{part}}<br>
+					{% endfor %}
+					</th>
+				{% endfor %}
+			</tr>
+			{% for pick in nflpicks %}
+				<tr>
+				{% for data in pick %}
+					<td>{{data}}</td>
+				{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+		<br>
+		<h1>Submit Log</h1>
+	</body>
+</html>

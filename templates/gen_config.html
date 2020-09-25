@@ -1,35 +1,10 @@
 <!DOCTYPE html>
 <html>
-<style type="text/css">
-	td {
-		text-align: center;
-	}
-</style>
 	<body>
 		<form name="gen_form" method="post" action="gen_submit">
 			url <input type="text" name="url"><br>
 			games <input type="text" name="games"><br>
 			<input type="submit" name="submit" value="Submit">
 		</form>
-		<br>
-		<br>
-		<table border = 1 style="width:45%">
-			<tr>
-				{% for data in header %}
-					<th>
-					{% for part in data %}
-						{{part}}<br>
-					{% endfor %}
-					</th>
-				{% endfor %}
-			</tr>
-			{% for pick in nflpicks %}
-				<tr>
-				{% for data in pick %}
-					<td>{{data}}</td>
-				{% endfor %}
-				</tr>
-			{% endfor %}
-		</table>
 	</body>
 </html>

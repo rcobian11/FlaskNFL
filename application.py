@@ -26,8 +26,7 @@ def submit():
 
 @application.route('/gen_config')
 def gen_config():
-	nflpicks,header = helper.get_nflpicks()
-	return render_template("gen_config.html", nflpicks=nflpicks,header=header)
+	return render_template("gen_config.html")
 
 @application.route('/gen_submit', methods = ['POST', 'GET'])
 def gen_submit():
@@ -38,6 +37,10 @@ def gen_submit():
 	helper.gen_nflpick()
 	return "Success"
 
+@application.route('/logs')
+def logs():
+	nflpicks,header = helper.get_nflpicks()
+	return render_template('log.html', nflpicks=nflpicks,header=header) 
 	
 if __name__ == '__main__':
 	DEV = 1
