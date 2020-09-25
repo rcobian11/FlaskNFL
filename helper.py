@@ -42,3 +42,19 @@ def submit_picks(name, picks, points, dev):
 def upload_file(file, bucket):
 	s3_client = boto3.client('s3')
 	s3_client.upload_file(file,bucket,file)
+
+def get_nflpicks():
+	header = []
+	nflpicks = []
+	with open('picks.csv', newline = '') as csvfile:
+		reader = csv.DictReader(csvfile)
+		ctr = 0
+		for row in reader:
+			tmp = []
+			for k,v in row.items():
+				if(not ctr):
+					header.append(k)
+				tmp.append(v)
+			nflpicks.append(tmp)
+			ctr = 1
+	return nflpicks,header
