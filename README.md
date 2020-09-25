@@ -12,6 +12,5 @@ pip install -r requirments.txt
 If ran locally (using flask run or python application.py) development version will be ran and picks.csv will be stored locally in same directory.
 
 ## TODO
-- Check for multiple entries and use only the latest one
 - Make seperate html file to be rendered when picks are submitted 
 - Look into adding password to gen_config directory
