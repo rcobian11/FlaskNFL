@@ -40,7 +40,9 @@ def gen_submit():
 @application.route('/logs')
 def logs():
 	nflpicks,header = helper.get_nflpicks()
-	return render_template('log.html', nflpicks=nflpicks,header=header) 
+	log = helper.get_log()
+	print(log)
+	return render_template('log.html', nflpicks=nflpicks, header=header, logs=log) 
 	
 if __name__ == '__main__':
 	DEV = 1

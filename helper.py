@@ -65,7 +65,7 @@ def submit_picks(name, picks, points, dev):
 	date = datetime.now(tz=None)
 	#write to log file
 	log = open("log.txt", 'a')
-	log.write(name + ":")
+	log.write(name + ";")
 	log.write("{}/{}".format(date.month, date.day))
 	log.write("  {:02d}:{:02d}:{:02d}".format(date.hour, date.minute, date.second))
 	log.write("\n")
@@ -116,7 +116,7 @@ def get_log():
 	try:
 		log = open('log.txt', 'r')
 		for line in log:
-			entry.append(line.split(":"))
+			entry.append(line.split(";"))
 	except FileNotFoundError:
 		return entry
-	return entry
+	return entry[1:]

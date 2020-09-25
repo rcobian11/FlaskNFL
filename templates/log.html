@@ -26,6 +26,11 @@
 			{% endfor %}
 		</table>
 		<br>
-		<h1>Submit Log</h1>
+		<h1>Submit Log</h1><br>
+		{% for entry in logs %}
+			{{entry[0]}}
+			{{entry[1]}}
+			<br>
+		{% endfor %}
 	</body>
 </html>
