@@ -1,6 +1,7 @@
 import csv
-import boto3
+import boto3, pytz
 from datetime import datetime
+
 def file_len(fname):
 	'''
 	@param fname: fname = name of file to be opened
@@ -62,8 +63,9 @@ def submit_picks(name, picks, points, dev):
 		file.write(pick + ",")
 	file.write(points)
 	file.close()
-	date = datetime.now(tz=None)
 	#write to log file
+	tz_la = pytz.timezone("America/Los_Angeles")
+	date = datetime.now(tz_la)
 	log = open("log.txt", 'a')
 	log.write(name + ";")
 	log.write("{}/{}".format(date.month, date.day))
