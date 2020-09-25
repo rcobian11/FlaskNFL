@@ -1,4 +1,5 @@
 picks.csv
+log.txt
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
