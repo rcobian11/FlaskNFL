@@ -13,5 +13,6 @@ If ran locally (using flask run or python application.py) development version wi
 
 ## TODO
 - Add log file that stores timestamp of when picks where submitted
-- Add table to gen picks which displays picks.csv contents
 - Look into adding password to gen_config directory
+- Check for multiple entries and use only the latest one
+- Make seperate html file to be rendered when picks are submitted 
