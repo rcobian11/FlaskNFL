@@ -46,6 +46,15 @@ def get_picks():
 			picks.append((row['FAV'], row['SPREAD'], row['UNDER']))
 	return picks
 
+def check_repeat(name):
+	with open("picks.csv", "r+") as picks:
+		line = picks.readlines()
+		picks.seek(0)
+		for i in line:
+			if name != i.split(',')[0]:
+				picks.write(i)
+		picks.truncate()
+
 def submit_picks(name, picks, points, dev):
 	'''
 	@param name: name submitted from form -> str
@@ -56,6 +65,7 @@ def submit_picks(name, picks, points, dev):
 	adds timestamp to log file when picks are submmited 
 	'''
 	#write to picks file
+	check_repeat(name)
 	file = open("picks.csv", 'a')
 	file.write("\n")
 	file.write(name + ",")
@@ -116,9 +126,10 @@ def get_log():
 	'''
 	entry = []
 	try:
-		log = open('log.txt', 'r')
-		for line in log:
-			entry.append(line.split(";"))
+		with open('log.txt', 'r') as log:
+			for line in log:
+				entry.append(line.split(";"))
 	except FileNotFoundError:
 		return entry
+
 	return entry[1:]
