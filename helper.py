@@ -1,6 +1,7 @@
 import csv
 import boto3, pytz
 from datetime import datetime
+Gif = ""
 
 def file_len(fname):
 	'''

@@ -47,7 +47,7 @@ def build_config(url,num_games):
         teams.append((top_team,bot_team))
         #print("{} vs {}".format(top_team, bot_team))
     for junk in soup.find_all('div', 'op-item-row-wrapper not-futures'): #gets the spread which is stored in junk
-        points = junk.find('div', 'op-first-row').div['data-op-info']
+        points = junk.find_all('div', 'op-first-row')[1].div['data-op-info']
         spreads.append(get_points(points))
     config = open("config.csv", "w")
     num = 0

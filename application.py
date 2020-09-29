@@ -21,7 +21,7 @@ def submit():
 			picks.append(pick)
 		points = request.form['points']
 		helper.submit_picks(name, picks, points, DEV)
-		return "<h3 style='color:green'>Your picks have been submited </h>"
+		return render_template("picks_submited.html", gif=helper.Gif)
 	return 'done'
 
 @application.route('/gen_config')
@@ -31,6 +31,7 @@ def gen_config():
 @application.route('/gen_submit', methods = ['POST', 'GET'])
 def gen_submit():
 	if request.method == "POST":
+		helper.Gif = request.form['gif']
 		url = request.form['url']
 		games = int(request.form['games'])
 		scrapper.build_config(url, games)
