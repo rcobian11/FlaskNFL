@@ -13,4 +13,5 @@ If ran locally (using flask run or python application.py) development version wi
 
 ## TODO
 - Make seperate html file to be rendered when picks are submitted 
+- Get average spread from all avaliable and average them out
 - Look into adding password to gen_config directory
