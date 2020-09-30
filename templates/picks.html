@@ -1,175 +1,71 @@
 <!--test nfl site -->
 <!DOCTYPE html>
 <html>
-<script type="text/javascript">
-	function validateForm() {
-		var pick1 = document.forms['picks']['pick1'].value;
-		alert(pick1)
-		if (pick1 == "") {
-			alert("must make all picks");
-			return false;
-		}
-	}
-</script>
 	<head>
 		<title>NFL Picks</title>
 	</head>
-	<style>
-	span {
-		display: inline-block;
-		width: 60px;
-		height: 21px;
-	}
-	span_2 {
-		display: inline-block;
-		background-color: rgb(200,200,200);
-	}
-	</style>
 	<body>
+		<style type="text/css">
+			table {
+				border-collapse: collapse;
+				border: 1px solid black;
+				width: 50%
+
+			}
+
+			th {
+				background-color: #c4c4c4;
+			}
+
+			th, td {
+				border: 1px solid black;
+				padding: 10px;
+				vertical-align: middle;
+			}
+
+			td.spread {
+				text-align: center;
+			}
+
+			td.left {
+				padding: 10px;
+				vertical-align: middle;
+			}
+
+			img {
+				width: 75px;
+				height: 50px;
+			}
+		</style>
 		<form method='post' action="http://localhost:5000/submit", name="picks", onsubmit="return validateForm()">
 		Name: <input type='text' name='name' value=''><br>
 
-		<input type='radio' name='pick1' value='{{team1}}'>
-		<span style='padding-right:20px;'>{{team1}}</span>
-		<span style='padding-right:10px;'>{{spread}}</span>
-		<span style='text-align: right'>{{team2}}</span>
-
-		<input type='radio' name='pick1' value='{{team2}}'
-		><br>
-
-		<span_2><input type='radio' name='pick2' value='GB'
-		>
-		<span style='padding-right:20px;'>GB</span>
-		<span style='padding-right:10px;'>-6.5</span>
-		<span style='text-align: right'>DET</span>
-
-		<input type='radio' name='pick2' value='DET'
-		></span_2><br>
-
-		<input type='radio' name='pick3' value='CHI'
-		>
-		<span style='padding-right:20px;'>CHI</span>
-		<span style='padding-right:10px;'>-5.5</span>
-		<span style='text-align: right'>NYG</span>
-
-		<input type='radio' name='pick3' value='NYG'
-		><br>
-
-		<span_2><input type='radio' name='pick4' value='TEN'
-		>
-		<span style='padding-right:20px;'>TEN</span>
-		<span style='padding-right:10px;'>-11.5</span>
-		<span style='text-align: right'>JAC</span>
-
-		<input type='radio' name='pick4' value='JAC'
-		></span_2><br>
-
-		<input type='radio' name='pick5' value='DAL'
-		>
-		<span style='padding-right:20px;'>DAL</span>
-		<span style='padding-right:10px;'>-7.5</span>
-		<span style='text-align: right'>ATL</span>
-
-		<input type='radio' name='pick5' value='ATL'
-		><br>
-
-		<span_2><input type='radio' name='pick6' value='SF'
-		>
-		<span style='padding-right:20px;'>SF</span>
-		<span style='padding-right:10px;'>-4.5</span>
-		<span style='text-align: right'>NYJ</span>
-
-		<input type='radio' name='pick6' value='NYJ'
-		></span_2><br>
-
-		<input type='radio' name='pick7' value='PHI'
-		>
-		<span style='padding-right:20px;'>PHI</span>
-		<span style='padding-right:10px;'>-3.5</span>
-		<span style='text-align: right'>LAR</span>
-
-		<input type='radio' name='pick7' value='LAR'
-		><br>
-
-		<span_2><input type='radio' name='pick8' value='TB'
-		>
-		<span style='padding-right:20px;'>TB</span>
-		<span style='padding-right:10px;'>-8.5</span>
-		<span style='text-align: right'>CAR</span>
-
-		<input type='radio' name='pick8' value='CAR'
-		></span_2><br>
-
-		<input type='radio' name='pick9' value='PIT'
-		>
-		<span style='padding-right:20px;'>PIT</span>
-		<span style='padding-right:10px;'>-4.5</span>
-		<span style='text-align: right'>DEN</span>
-
-		<input type='radio' name='pick9' value='DEN'
-		><br>
-
-		<span_2><input type='radio' name='pick10' value='IND'
-		>
-		<span style='padding-right:20px;'>IND</span>
-		<span style='padding-right:10px;'>-3.5</span>
-		<span style='text-align: right'>MIN</span>
-
-		<input type='radio' name='pick10' value='MIN'
-		></span_2><br>
-
-		<input type='radio' name='pick11' value='BUF'
-		>
-		<span style='padding-right:20px;'>BUF</span>
-		<span style='padding-right:10px;'>-3.5</span>
-		<span style='text-align: right'>MIA</span>
-
-		<input type='radio' name='pick11' value='MIA'
-		><br>
-
-		<span_2><input type='radio' name='pick12' value='ARI'
-		>
-		<span style='padding-right:20px;'>ARI</span>
-		<span style='padding-right:10px;'>-7.5</span>
-		<span style='text-align: right'>WAS</span>
-
-		<input type='radio' name='pick12' value='WAS'
-		></span_2><br>
-
-		<input type='radio' name='pick13' value='KC'
-		>
-		<span style='padding-right:20px;'>KC</span>
-		<span style='padding-right:10px;'>-5.5</span>
-		<span style='text-align: right'>LAC</span>
-
-		<input type='radio' name='pick13' value='LAC'
-		><br>
-
-		<span_2><input type='radio' name='pick14' value='BAL'
-		>
-		<span style='padding-right:20px;'>BAL</span>
-		<span style='padding-right:10px;'>-6.5</span>
-		<span style='text-align: right'>HOU</span>
-
-		<input type='radio' name='pick14' value='HOU'
-		></span_2><br>
-
-		<input type='radio' name='pick15' value='SEA'
-		>
-		<span style='padding-right:20px;'>SEA</span>
-		<span style='padding-right:10px;'>-3.5</span>
-		<span style='text-align: right'>NE</span>
-
-		<input type='radio' name='pick15' value='NE'><br>
-
-		<span_2><input type='radio' name='pick16' value='NO'>
-		<span style='padding-right:20px;'>NO</span>
-		<span style='padding-right:10px;'>-5.5</span>
-		<span style='text-align: right'>LV</span>
-
-		<input type='radio' name='pick16' value='LV'
-		></span_2><br>
-		Points: <input type='text' name='points' value=''><br><input type='submit' name='submit' value='Submit'>
+		<table id = 'picks'>
+			<tr>
+				<th>
+					Favorite
+				</th>
+				<th>
+					Spread
+				</th>
+				<th>
+					Underdog
+				</th>
+			</tr>
+			<tr>
+				<td class = 'left'>
+					<input type="radio" name="pick1" value="BAL">BAL
+					<img src="https://content.sportslogos.net/logos/7/153/thumbs/318.gif">
+				</td>
+				<td class = "spread">
+					-4.5
+				</td>
+				<td class = 'right'>
+					<img src="https://content.sportslogos.net/logos/7/162/thumbs/857.gif">
+					KC<input type="radio" name="pick1" value="KC">
+				</td>
+			</tr>
+		</table>
 		</form>
 	</body>
 </html>
