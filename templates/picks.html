@@ -1,7 +1,33 @@
 <!--test nfl site -->
 <!DOCTYPE html>
 <html>
+<script type="text/javascript">
+	function validateForm() {
+		var name = document.forms['picks']['name'].value;
+		if(name == "") {
+			alert("Enter your name");
+			return false
+		}
+		{% for num in ctr %}
+			var pick{{num}} = document.forms['picks']['pick{{num}}'].value;
+			if(pick{{num}} == "") {
+				alert("Must make all picks");
+				return false;
+			}
+		{% endfor %}
+		var points = document.forms['picks']['points'].value;
+		if(points == "") {
+			alert("Enter points");
+			return false;
+		}
+		if(isNaN(points)) {
+			alert("Points must be a number");
+			return false;
+		}
+	}
+</script>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>NFL Picks</title>
 	</head>
 	<body>
@@ -9,12 +35,13 @@
 			table {
 				border-collapse: collapse;
 				border: 1px solid black;
-				width: 50%
-
+				margin-right: auto;
+				margin-left: auto;
 			}
 
 			th {
 				background-color: #c4c4c4;
+				font-size: 20px;
 			}
 
 			th, td {
@@ -27,19 +54,34 @@
 				text-align: center;
 			}
 
-			td.left {
+			td.team {
 				padding: 10px;
 				vertical-align: middle;
+				text-align: center;
+				width: 100px;
 			}
 
 			img {
 				width: 75px;
 				height: 50px;
 			}
+
+			div {
+				text-align: center;
+				padding: 20px;
+			}
+
+			p {
+				display: inline;
+				font-size: 25px;
+			}
+
+			input.radio {
+				margin-bottom: 10px; 
+			}
 		</style>
 		<form method='post' action="http://localhost:5000/submit", name="picks", onsubmit="return validateForm()">
-		Name: <input type='text' name='name' value=''><br>
-
+		<div><p>Name: </p><input type='text' name='name' value=''></div>
 		<table id = 'picks'>
 			<tr>
 				<th>
@@ -52,20 +94,24 @@
 					Underdog
 				</th>
 			</tr>
-			<tr>
-				<td class = 'left'>
-					<input type="radio" name="pick1" value="BAL">BAL
-					<img src="https://content.sportslogos.net/logos/7/153/thumbs/318.gif">
-				</td>
-				<td class = "spread">
-					-4.5
-				</td>
-				<td class = 'right'>
-					<img src="https://content.sportslogos.net/logos/7/162/thumbs/857.gif">
-					KC<input type="radio" name="pick1" value="KC">
-				</td>
-			</tr>
+			{% for team1,spread,team2 in picks %}
+				<tr>
+					<td class = 'team'>
+						<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team1}}">{{team1}}
+						<img id="team1" src="{{ logos[team1] }}">
+					</td>
+					<td class = "spread">
+						<p>{{spread}}</p>
+					</td>
+					<td class = 'team'>
+						<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team2}}">{{team2}}
+						<img id="team2" src="{{ logos[team2] }}">
+					</td>
+				</tr>
+			{% endfor %}
 		</table>
+		<div><p>Points: </p><input type='text' name='points' value=''></div>
+		<div><input type='submit' name='submit' value='Submit'></div>
 		</form>
 	</body>
 </html>

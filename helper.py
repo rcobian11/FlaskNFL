@@ -2,6 +2,40 @@ import csv
 import boto3, pytz
 from datetime import datetime
 Gif = ""
+nfl_logos = {
+	"ARI" : "https://content.sportslogos.net/logos/7/177/thumbs/kwth8f1cfa2sch5xhjjfaof90.gif",
+	"ATL" : "https://content.sportslogos.net/logos/7/173/thumbs/299.gif",
+	"BAL" : "https://content.sportslogos.net/logos/7/153/thumbs/318.gif",
+	"BUF" : "https://content.sportslogos.net/logos/7/149/thumbs/n0fd1z6xmhigb0eej3323ebwq.gif",
+	"CAR" : "https://content.sportslogos.net/logos/7/174/thumbs/f1wggq2k8ql88fe33jzhw641u.gif",
+	"CHI" : "https://content.sportslogos.net/logos/7/169/thumbs/364.gif",
+	"CIN" : "https://content.sportslogos.net/logos/7/154/thumbs/403.gif",
+	"CLE" : "https://content.sportslogos.net/logos/7/155/thumbs/15578552015.gif",
+	"DAL" : "https://content.sportslogos.net/logos/7/165/thumbs/406.gif",
+	"DEN" : "https://content.sportslogos.net/logos/7/161/thumbs/9ebzja2zfeigaziee8y605aqp.gif",
+	"DET" : "https://content.sportslogos.net/logos/7/170/thumbs/17013982017.gif",
+	"GB"  : "https://content.sportslogos.net/logos/7/171/thumbs/dcy03myfhffbki5d7il3.gif",
+	"HOU" : "https://content.sportslogos.net/logos/7/157/thumbs/570.gif",
+	"IND" : "https://content.sportslogos.net/logos/7/158/thumbs/593.gif",
+	"JAC" : "https://content.sportslogos.net/logos/7/159/thumbs/15988562013.gif",
+	"KC"  : "https://content.sportslogos.net/logos/7/162/thumbs/857.gif",
+	"LV"  : "https://content.sportslogos.net/logos/7/6708/thumbs/670885212020.gif",
+	"LAC" : "https://content.sportslogos.net/logos/7/6446/thumbs/644616602020.gif",
+	"LAR" : "https://content.sportslogos.net/logos/7/5941/thumbs/594183342020.gif",
+	"MIA" : "https://content.sportslogos.net/logos/7/150/thumbs/15073062018.gif",
+	"MIN" : "https://content.sportslogos.net/logos/7/172/thumbs/17227042013.gif",
+	"NE"  : "https://content.sportslogos.net/logos/7/151/thumbs/y71myf8mlwlk8lbgagh3fd5e0.gif",
+	"NO"  : "https://content.sportslogos.net/logos/7/175/thumbs/907.gif",
+	"NYG" : "https://content.sportslogos.net/logos/7/166/thumbs/919.gif",
+	"NYJ" : "https://content.sportslogos.net/logos/7/152/thumbs/15291162019.gif",
+	"PHI" : "https://content.sportslogos.net/logos/7/167/thumbs/960.gif",
+	"PIT" : "https://content.sportslogos.net/logos/7/156/thumbs/970.gif",
+	"SF"  : "https://content.sportslogos.net/logos/7/179/thumbs/17994552009.gif",
+	"SEA" : "https://content.sportslogos.net/logos/7/180/thumbs/pfiobtreaq7j0pzvadktsc6jv.gif",
+	"TB"  : "https://content.sportslogos.net/logos/7/176/thumbs/17683632020.gif",
+	"TEN" : "https://content.sportslogos.net/logos/7/160/thumbs/1053.gif",
+	"WAS" : "https://content.sportslogos.net/logos/7/6741/thumbs/674188372020.gif"
+}
 
 def file_len(fname):
 	'''
