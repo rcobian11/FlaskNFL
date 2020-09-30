@@ -42,7 +42,6 @@ def gen_submit():
 def logs():
 	nflpicks,header = helper.get_nflpicks()
 	log = helper.get_log()
-	print(log)
 	return render_template('log.html', nflpicks=nflpicks, header=header, logs=log) 
 	
 if __name__ == '__main__':

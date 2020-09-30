@@ -6,8 +6,18 @@
 	}
 </style>
 	<body>
+		<script>
+			function myClick(x){
+				if (x.style.backgroundColor == 'rgb(45, 201, 10)'){
+					x.style.backgroundColor = "#ffffff";
+				} else {
+					x.style.backgroundColor = '#2dc90a';
+				}
+				console.log(x)
+			}
+		</script>
 		<h1>Table of picks</h1><br>
-		<table border = 1 style="width:45%">
+		<table id = "picks" border = 1 style="width:45%">
 			<tr>
 				{% for data in header %}
 					<th>
@@ -20,7 +30,7 @@
 			{% for pick in nflpicks %}
 				<tr>
 				{% for data in pick %}
-					<td>{{data}}</td>
+					<td onclick="myClick(this)">{{data}}</td>
 				{% endfor %}
 				</tr>
 			{% endfor %}
