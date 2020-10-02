@@ -54,7 +54,7 @@
 				text-align: center;
 			}
 
-			td.team {
+			td.team1, td.team2 {
 				padding: 10px;
 				vertical-align: middle;
 				text-align: center;
@@ -79,6 +79,15 @@
 			input.radio {
 				margin-bottom: 10px; 
 			}
+			
+			label{
+				display: block;
+				min-height: 100%;
+				height: auto;
+				height: 100%;
+				cursor: default;
+			}
+
 		</style>
 		<form method='post' action="submit", name="picks", onsubmit="return validateForm()">
 		<div><p>Name: </p><input type='text' name='name' value=''></div>
@@ -96,16 +105,22 @@
 			</tr>
 			{% for team1,spread,team2 in picks %}
 				<tr>
-					<td class = 'team'>
-						<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team1}}">{{team1}}
-						<img id="team1" src="{{ logos[team1] }}">
+					<td class = 'team1'>
+						<label class=teams>
+							<input class='radio' type="radio" id="Fav+pick{{loop.index}}" 
+								name="pick{{loop.index}}" value="{{team1}}">{{team1}}
+							<img id="team1" src="{{ logos[team1] }}">
+						</label>
 					</td>
 					<td class = "spread">
 						<p>{{spread}}</p>
 					</td>
-					<td class = 'team'>
-						<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team2}}">{{team2}}
-						<img id="team2" src="{{ logos[team2] }}">
+					<td class = 'team2'>
+						<label>
+							<input class='radio' type="radio" id="Und+pick{{loop.index}}" 
+								name="pick{{loop.index}}" value="{{team2}}">{{team2}}
+							<img id="team2" src="{{logos[team2]}}">
+						</label>
 					</td>
 				</tr>
 			{% endfor %}
