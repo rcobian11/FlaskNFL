@@ -8,7 +8,7 @@ DEV = 0
 def picks():
 	PICKS = helper.get_picks()
 	config_len = helper.file_len("config.csv")
-	return render_template('picks.html', picks=PICKS, ctr=range(1,config_len+1), logos=helper.nfl_logos)
+	return render_template('ScriptPicks.html', picks=PICKS, ctr=range(1,config_len+1), logos=helper.nfl_logos)
 
 @application.route('/submit', methods = ['POST', 'GET'])
 def submit():
