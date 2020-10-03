@@ -26,11 +26,12 @@
 				vertical-align: middle;
 				text-align: center;
 				width: 100px;
+				height: 100px;
 			}
 
 			img {
 				width: 75px;
-				height: 50px;
+				height: 75px;
 			}
 
 			div {
@@ -78,7 +79,7 @@
 						<label class="team1" onclick="labelClick();" id="t1pick{{loop.index}}">
 							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team1}}"
 							id="int1pick{{loop.index}}">
-							{{team1}}
+							{{team1}}<br>
 							<img id="team1" src="{{logos[team1]}}">
 						</label>
 					</td>
@@ -89,7 +90,7 @@
 						<label class="team2" onclick="labelClick()" id="t2pick{{loop.index}}">
 							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team2}}"
 							id="int2pick{{loop.index}}">
-							{{team2}}
+							{{team2}}<br>
 							<img id="team2" src="{{logos[team2]}}">
 						</label>
 					</td>
