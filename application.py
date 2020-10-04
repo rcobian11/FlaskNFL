@@ -46,4 +46,4 @@ def logs():
 	
 if __name__ == '__main__':
 	DEV = 1
-	application.run(debug=True)
+	application.run(debug=True, host="0.0.0.0")
