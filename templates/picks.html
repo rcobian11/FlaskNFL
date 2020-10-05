@@ -1,31 +1,6 @@
-<!--test nfl site -->
+<!--nfl site -->
 <!DOCTYPE html>
 <html>
-<script type="text/javascript">
-	function validateForm() {
-		var name = document.forms['picks']['name'].value;
-		if(name == "") {
-			alert("Enter your name");
-			return false
-		}
-		{% for num in ctr %}
-			var pick{{num}} = document.forms['picks']['pick{{num}}'].value;
-			if(pick{{num}} == "") {
-				alert("Must make all picks");
-				return false;
-			}
-		{% endfor %}
-		var points = document.forms['picks']['points'].value;
-		if(points == "") {
-			alert("Enter points");
-			return false;
-		}
-		if(isNaN(points)) {
-			alert("Points must be a number");
-			return false;
-		}
-	}
-</script>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>NFL Picks</title>
@@ -42,28 +17,21 @@
 			th {
 				background-color: #c4c4c4;
 				font-size: 20px;
-			}
-
-			th, td {
+				padding: 10px;
 				border: 1px solid black;
-				padding: 10px;
-				vertical-align: middle;
 			}
 
-			td.spread {
-				text-align: center;
-			}
-
-			td.team1, td.team2 {
-				padding: 10px;
+			td {
+				border: 1px solid black;
 				vertical-align: middle;
 				text-align: center;
 				width: 100px;
+				height: 100px;
 			}
 
 			img {
 				width: 75px;
-				height: 50px;
+				height: 75px;
 			}
 
 			div {
@@ -86,6 +54,18 @@
 				height: auto;
 				height: 100%;
 				cursor: default;
+				width: 130px;
+				height: 90px;
+			}
+
+			input[type=submit] {
+				height: 40px;
+				width: 100px;
+			}
+
+			input[type=text] {
+				font-size: 18px;
+				width: 100px;
 			}
 
 		</style>
@@ -106,19 +86,21 @@
 			{% for team1,spread,team2 in picks %}
 				<tr>
 					<td class = 'team1'>
-						<label class=teams>
-							<input class='radio' type="radio" id="Fav+pick{{loop.index}}" 
-								name="pick{{loop.index}}" value="{{team1}}">{{team1}}
-							<img id="team1" src="{{ logos[team1] }}">
+						<label class="team1" onclick="labelClick();" id="t1pick{{loop.index}}">
+							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team1}}"
+							id="int1pick{{loop.index}}">
+							{{team1}}<br>
+							<img id="team1" src="{{logos[team1]}}">
 						</label>
 					</td>
 					<td class = "spread">
 						<p>{{spread}}</p>
 					</td>
 					<td class = 'team2'>
-						<label>
-							<input class='radio' type="radio" id="Und+pick{{loop.index}}" 
-								name="pick{{loop.index}}" value="{{team2}}">{{team2}}
+						<label class="team2" onclick="labelClick()" id="t2pick{{loop.index}}">
+							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team2}}"
+							id="int2pick{{loop.index}}">
+							{{team2}}<br>
 							<img id="team2" src="{{logos[team2]}}">
 						</label>
 					</td>
@@ -128,5 +110,51 @@
 		<div><p>Points: </p><input type='text' name='points' value=''></div>
 		<div><input type='submit' name='submit' value='Submit'></div>
 		</form>
+
+		<script type="text/javascript">
+			function validateForm() {
+				var name = document.forms['picks']['name'].value;
+				if(name == "") {
+					alert("Enter your name");
+					return false
+				}
+				{% for num in ctr %}
+					var pick{{num}} = document.forms['picks']['pick{{num}}'].value;
+					if(pick{{num}} == "") {
+						alert("Must make all picks");
+						return false;
+					}
+				{% endfor %}
+				var points = document.forms['picks']['points'].value;
+				if(points == "") {
+					alert("Enter points");
+					return false;
+				}
+				if(isNaN(points)) {
+					alert("Points must be a number");
+					return false;
+				}
+			}
+
+			function labelClick() {
+				{% for num in ctr %}
+					var labelId = "t1pick{{num}}";
+					var inputId = "in"+labelId;
+					if(document.getElementById(inputId).checked){
+						document.getElementById(labelId).style.backgroundColor = '#41e31e';
+					}else{
+						document.getElementById(labelId).style.backgroundColor = 'white';
+					}
+
+					var labelId = "t2pick{{num}}";
+					var inputId = "in"+labelId;
+					if(document.getElementById(inputId).checked){
+						document.getElementById(labelId).style.backgroundColor = '#41e31e';
+					}else{
+						document.getElementById(labelId).style.backgroundColor = 'white';
+					}
+				{% endfor %}
+			}
+		</script>
 	</body>
 </html>
