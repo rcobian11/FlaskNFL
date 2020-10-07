@@ -4,6 +4,13 @@ import helper
 application = Flask(__name__)
 DEV = 0
 
+'''
+Gifs to be used 
+Boo-ena suerte: https://media.giphy.com/media/9SIY0mFMOho1duVcP6/giphy.gif
+spongebob gl: https://media.giphy.com/media/j1Xyt3DHfJcmk/giphy.gif
+simpsons gl: https://media.giphy.com/media/HXF45CT8cvzZC/giphy.gif
+'''
+
 @application.route('/')
 def picks():
 	PICKS = helper.get_picks()
