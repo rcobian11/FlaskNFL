@@ -12,6 +12,4 @@ pip install -r requirments.txt
 If ran locally (using flask run or python application.py) development version will be ran and picks.csv will be stored locally in same directory.
 
 ## TODO
-- change color of cell based on team selected
 - Get average spread from all avaliable and average them out
-- Look into adding password to gen_config directory

@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>NFL Picks</title>
 	</head>
-	<body>
+	<body onload="labelClick()">
 		<style type="text/css">
 			table {
 				border-collapse: collapse;
@@ -25,8 +25,7 @@
 				border: 1px solid black;
 				vertical-align: middle;
 				text-align: center;
-				width: 100px;
-				height: 100px;
+				
 			}
 
 			img {
@@ -44,18 +43,25 @@
 				font-size: 25px;
 			}
 
+			p.teams {
+				display: block;
+				font-size: 18px;
+				margin-bottom: 5px;
+				margin-top: 0px;
+				padding-top: 15px;
+			}
+
 			input.radio {
+				display: none;
 				margin-bottom: 10px; 
 			}
 			
 			label{
 				display: block;
 				min-height: 100%;
-				height: auto;
-				height: 100%;
 				cursor: default;
 				width: 130px;
-				height: 90px;
+				height: 115px;
 			}
 
 			input[type=submit] {
@@ -89,7 +95,7 @@
 						<label class="team1" onclick="labelClick();" id="t1pick{{loop.index}}">
 							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team1}}"
 							id="int1pick{{loop.index}}">
-							{{team1}}<br>
+							<p class = 'teams'>{{team1}}</p>
 							<img id="team1" src="{{logos[team1]}}">
 						</label>
 					</td>
@@ -100,7 +106,7 @@
 						<label class="team2" onclick="labelClick()" id="t2pick{{loop.index}}">
 							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team2}}"
 							id="int2pick{{loop.index}}">
-							{{team2}}<br>
+							<p class='teams'>{{team2}}</p>
 							<img id="team2" src="{{logos[team2]}}">
 						</label>
 					</td>
