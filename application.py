@@ -39,7 +39,7 @@ def gen_config():
 def gen_submit():
 	if request.method == "POST":
 		helper.Gif = request.form['gif']
-		url = request.form['url']
+		url = "https://www.oddsshark.com/nfl/odds"
 		games = int(request.form['games'])
 		scrapper.build_config(url, games)
 	helper.gen_nflpick()
