@@ -21,8 +21,8 @@ The web-app is built using a config file which is contructed by a scrapper which
 There is a log directory which looks at the csv file of submitted picks and displays the picks in a table. Each cell in the table is clickable and will toggle green to indicate that the pick was correct. Below the table there is also a log containing the name and timestamp of when each pick was submitted. 
 
 ## Example images
-![image of picks.html](https://github.com/rcobian11/FlaskNFL/images/picks_example.png)
-![image of logs.html](https://github.com/rcobian11/FlaskNFL/images/logs_example.png)
+![image of picks.html](https://github.com/rcobian11/FlaskNFL/images/picks_example.j[g)
+![image of logs.html](https://github.com/rcobian11/FlaskNFL/images/logs_example.jpg)
 
 ## TODO
 - Scrap results of games and auto highlight correct picks in log table
