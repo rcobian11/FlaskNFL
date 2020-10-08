@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, request, render_template
+from flask import Flask, redirect, render_template, request, url_for
 import argparse, scrapper
 import helper
 application = Flask(__name__)
@@ -47,9 +47,18 @@ def gen_submit():
 
 @application.route('/logs')
 def logs():
+	if(helper.show_picks()):
+		nflpicks,header = helper.get_nflpicks()
+		log = helper.get_log()
+		return render_template('log.html', nflpicks=nflpicks, header=header, logs=log) 
+	else:
+		return "<h1>Come back once the first game starts on sunday</h1>"
+
+@application.route('/admin_logs')
+def admin_logs():
 	nflpicks,header = helper.get_nflpicks()
 	log = helper.get_log()
-	return render_template('log.html', nflpicks=nflpicks, header=header, logs=log) 
+	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log)
 	
 if __name__ == '__main__':
 	DEV = 1

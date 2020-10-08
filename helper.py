@@ -1,5 +1,4 @@
-import csv
-import boto3, pytz
+import boto3, csv, pytz, scrapper
 from datetime import datetime
 Gif = ""
 nfl_logos = {
@@ -168,3 +167,12 @@ def get_log():
 		return entry
 
 	return entry[1:]
+
+def show_picks():
+	tz_la = pytz.timezone("America/Los_Angeles")
+	date = datetime.now(tz_la)
+	gameDate = scrapper.get_date()
+	if(date.day < gameDate or date.hour < 10):
+		return False
+	else:
+		return True
