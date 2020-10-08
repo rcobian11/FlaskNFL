@@ -24,7 +24,9 @@ There is a log directory which looks at the csv file of submitted picks and disp
 Similar to admin_logs in that it shows a table of submitted picks but does not show log containing the timestamp of submitted picks. If the directory is accessed before the start of the first game of the weekend the page will show a message telling user to return after the start of the first game. Otherwise it will show the table as normal. 
 
 ## Example images
+### example image of picks.html
 ![image of picks.html](https://github.com/rcobian11/FlaskNFL/blob/master/Images/picks_example.jpg)
+### example image of logs and picks table
 ![image of logs.html](https://github.com/rcobian11/FlaskNFL/blob/master/Images/logs_example.jpg)
 
 ## TODO
