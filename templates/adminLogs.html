@@ -7,16 +7,6 @@
 </style>
 	<body>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script>
-			function myClick(x){
-				if (x.style.backgroundColor == 'rgb(45, 201, 10)'){
-					x.style.backgroundColor = "#ffffff";
-				} else {
-					x.style.backgroundColor = '#2dc90a';
-				}
-				console.log(x)
-			}
-		</script>
 		<h1>Table of picks</h1><br>
 		<table id = "picks" border = 1 style="width:45%">
 			<tr>
@@ -31,7 +21,16 @@
 			{% for pick in nflpicks %}
 				<tr>
 				{% for data in pick %}
-					<td onclick="myClick(this)">{{data}}</td>
+					{% set pick_loop = loop %}
+					<td id="pick{{pick[0]}}{{loop.index}}">{{data}}</td>
+					{% for team in winners %}
+						{% if data == team %}
+							<script type="text/javascript">
+								console.log("{{data}}");
+								document.getElementById("pick{{pick[0]}}{{pick_loop.index}}").style.backgroundColor = '#2dc90a';
+							</script>
+						{% endif %}
+					{% endfor %}
 				{% endfor %}
 				</tr>
 			{% endfor %}

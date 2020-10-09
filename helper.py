@@ -71,7 +71,7 @@ def gen_nflpick():
 def get_picks():
 	'''
 	@return picks: Array containing values from config.csv
-	iterates through config.csv and stores values in array picks
+	iterates through config.csv and stores values in list picks
 	'''
 	picks = []
 	with open('config.csv', newline = '') as csvfile:
@@ -92,7 +92,7 @@ def check_repeat(name):
 def submit_picks(name, picks, points, dev):
 	'''
 	@param name: name submitted from form -> str
-	@param picks: array of picks subbmited from form -> array
+	@param picks: list of picks subbmited from form -> list
 	@param points: number of points submmited from form -> int
 	@param dev: set if program ran in development mode -> bool
 	gets values submmited from the form and appends them to picks.csv
@@ -131,8 +131,8 @@ def upload_file(file, bucket):
 
 def get_nflpicks():
 	'''
-	@return nflpicks: array of all picks stored in picks.csv
-	@return header:  array of header from picks.csv
+	@return nflpicks: list of all picks stored in picks.csv
+	@return header:  list of header from picks.csv
 	reads contents of picks.csv and stores values in header and picks arrays
 	'''
 	header = []
@@ -155,8 +155,8 @@ def get_nflpicks():
 
 def get_log():
 	'''
-	@return entry: array of entries in log.txt
-	reads entries from log.txt and return them in an array
+	@return entry: list of entries in log.txt
+	reads entries from log.txt and return them in an list
 	'''
 	entry = []
 	try:
@@ -169,6 +169,9 @@ def get_log():
 	return entry[1:]
 
 def show_picks():
+	'''
+	@return boolean: return True if it current time is past 10am pst on gameday
+	'''
 	tz_la = pytz.timezone("America/Los_Angeles")
 	date = datetime.now(tz_la)
 	gameDate = scrapper.get_date()
@@ -176,3 +179,31 @@ def show_picks():
 		return False
 	else:
 		return True
+
+def check_scores() -> list:
+	'''
+	'''
+	scores = scrapper.get_scores()
+	print(scores)
+	winners = []
+	with open('config.csv', newline = '') as csvfile:
+		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])#fieldnames are the headers
+		for row in reader:
+			try:
+				Fav_team = row['FAV']
+				Fav_score = float(scores[row['FAV']])
+				spread = float(row['SPREAD'])
+				Under_team = row['UNDER']
+				Under_score = float(scores[row['UNDER']])
+				if Fav_score + spread > Under_score:
+					winners.append(Fav_team)
+				else:
+					winners.append(Under_team)
+			except KeyError:
+				continue
+	print(winners)
+	return winners
+			
+
+if __name__ == '__main__':
+	check_scores()

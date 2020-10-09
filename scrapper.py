@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests, argparse
+import requests, argparse, urllib.parse, urllib.request, json
 
 #gets the team name and returns as string
 def _get_team(pos):
@@ -26,8 +26,12 @@ def _get_points(pos):
             points = pos[num + 1: num2]
             break
     #if number is positive return float
-    if points[0] == '+':
+    if points == "":
+        return 0.25
+    elif points[0] == '+':
         return(float(points[1:]))
+    elif points[0] == 'E':
+        return 0.0
     #else convert number to negative and return as float
     else:
         return(float(points[1:]) * -1)
@@ -87,3 +91,28 @@ def build_config(url,num_games):
                 point += 0.5
             config.write("{},-{},{}\n".format(team[1].upper(),str(point),team[0].upper()))
     config.close()
+
+def get_scores() -> dict:
+    scores = {}
+    response = urllib.request.urlopen("http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard")
+    json_text = response.read().decode(encoding = 'utf-8')
+    result = json.loads(json_text)
+    for game in result['events']:
+        if game['status']['type']['state'] == 'pre':
+            pass
+        else:
+            team1 = game['competitions'][0]['competitors'][0]['team']['abbreviation']
+            score1 = game['competitions'][0]['competitors'][0]['score']
+            team2 = game['competitions'][0]['competitors'][1]['team']['abbreviation']
+            score2 = game['competitions'][0]['competitors'][1]['score']
+            if team1 == 'JAX':
+                team1 = 'JAC'
+            if team2 == 'JAX':
+                team2 = 'JAC'
+            if team1 == 'WSH':
+                team1 = 'WAS'
+            if team2 == 'WSH':
+                team2 = 'WAS'
+            scores[team1] = score1
+            scores[team2] = score2
+    return(scores)

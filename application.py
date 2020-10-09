@@ -57,8 +57,9 @@ def logs():
 @application.route('/admin_logs')
 def admin_logs():
 	nflpicks,header = helper.get_nflpicks()
+	scores = helper.check_scores()
 	log = helper.get_log()
-	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log)
+	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log, winners=scores)
 	
 if __name__ == '__main__':
 	DEV = 1
