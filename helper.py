@@ -70,7 +70,7 @@ def gen_nflpick():
 
 def get_picks():
 	'''
-	@return picks: Array containing values from config.csv
+	@return picks: list containing values from config.csv
 	iterates through config.csv and stores values in list picks
 	'''
 	picks = []
