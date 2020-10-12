@@ -30,5 +30,5 @@ Similar to admin_logs in that it shows a table of submitted picks but does not s
 ![image of logs.html](https://github.com/rcobian11/FlaskNFL/blob/master/Images/logs_example.jpg)
 
 ## TODO
-- Scrap results of games and auto highlight correct picks in log table
-- Get average spread from all avaliable and average them out
+- Change table width to 60%
+- Change highlight condition from not pre to active or completed
