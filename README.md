@@ -30,5 +30,6 @@ Similar to admin_logs in that it shows a table of submitted picks but does not s
 ![image of logs.html](https://github.com/rcobian11/FlaskNFL/blob/master/Images/logs_example.jpg)
 
 ## TODO
-- Change table width to 60%
 - Change highlight condition from not pre to active or completed
+- Add toggle switch for logs page instead of looking at date
+- Look into making a possible manual config file version that can be used when games are rescheduled
