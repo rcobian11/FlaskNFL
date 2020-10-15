@@ -1,6 +1,7 @@
 import boto3, csv, pytz, scrapper
 from datetime import datetime
 Gif = ""
+Logs = 0
 nfl_logos = {
 	"ARI" : "http://loodibee.com/wp-content/uploads/nfl-arizona-cardinals-team-logo-2-300x300.png",
 	"ATL" : "http://loodibee.com/wp-content/uploads/nfl-atlanta-falcons-team-logo-2-300x300.png",
@@ -184,7 +185,6 @@ def check_scores() -> list:
 	'''
 	'''
 	scores = scrapper.get_scores()
-	print(scores)
 	winners = []
 	with open('config.csv', newline = '') as csvfile:
 		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])#fieldnames are the headers
@@ -201,7 +201,6 @@ def check_scores() -> list:
 					winners.append(Under_team)
 			except KeyError:
 				continue
-	print(winners)
 	return winners
 			
 
