@@ -31,5 +31,4 @@ Similar to admin_logs in that it shows a table of submitted picks but does not s
 
 ## TODO
 - Change highlight condition from not pre to active or completed
-- Add toggle switch for logs page instead of looking at date
 - Look into making a possible manual config file version that can be used when games are rescheduled

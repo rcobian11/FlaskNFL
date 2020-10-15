@@ -7,12 +7,11 @@ DEV = 0
 '''
 Gifs to be used 
 Boo-ena suerte: https://media.giphy.com/media/9SIY0mFMOho1duVcP6/giphy.gif
-spongebob gl: https://media.giphy.com/media/j1Xyt3DHfJcmk/giphy.gif
 simpsons gl: https://media.giphy.com/media/HXF45CT8cvzZC/giphy.gif
 '''
 
 @application.route('/')
-def picks():
+def index():
 	PICKS = helper.get_picks()
 	config_len = helper.file_len("config.csv")
 	return render_template('picks.html', picks=PICKS, ctr=range(1,config_len+1), logos=helper.nfl_logos)
@@ -46,7 +45,7 @@ def gen_submit():
 	return "Success"
 
 @application.route('/logs',  methods = ['POST', 'GET'])
-def logs():
+def picks():
 	access = helper.Logs
 	if request.method == "POST":
 		helper.Logs = int(request.form['logs'])
