@@ -53,8 +53,9 @@ def picks():
 	if request.method == "GET":
 		if access:
 			nflpicks,header = helper.get_nflpicks()
+			scores = helper.check_scores()
 			log = helper.get_log()
-			return render_template('log.html', nflpicks=nflpicks, header=header, logs=log) 
+			return render_template('log.html', nflpicks=nflpicks, header=header, logs=log, winners=scores) 
 		else:
 			return "<h1>Come back once the first game starts on sunday</h1>"
 
