@@ -19,6 +19,7 @@
 				{% endfor %}
 			</tr>
 			{% for pick in nflpicks %}
+				<script type="text/javascript">var {{pick[0]}}_score = 0;</script>
 				<tr>
 				{% for data in pick %}
 					{% set pick_loop = loop %}
@@ -26,7 +27,7 @@
 					{% for team in winners %}
 						{% if data == team %}
 							<script type="text/javascript">
-								console.log("{{data}}");
+								window.{{pick[0]}}_score += 1;
 								document.getElementById("pick{{pick[0]}}{{pick_loop.index}}").style.backgroundColor = '#2dc90a';
 							</script>
 						{% endif %}
@@ -34,6 +35,26 @@
 				{% endfor %}
 				</tr>
 			{% endfor %}
+		</table>
+		<br>
+		<h1>Leaderboard</h1>
+		<table id="leaderboard" border=1 >
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Score
+				</th>
+			</tr>
+			{% for pick in nflpicks %}
+			<tr>
+				<td width="90px">{{pick[0]}}</td>
+				<td id="{{pick[0]}}" width="60px"><script>
+					document.getElementById("{{pick[0]}}").textContent = {{pick[0]}}_score;
+				</script></td>
+			{% endfor %}
+			</tr>
 		</table>
 	</body>
 </html>

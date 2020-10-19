@@ -1,7 +1,7 @@
 import boto3, csv, pytz, scrapper
 from datetime import datetime
 Gif = ""
-Logs = 0
+Show_Logs = 0
 nfl_logos = {
 	"ARI" : "http://loodibee.com/wp-content/uploads/nfl-arizona-cardinals-team-logo-2-300x300.png",
 	"ATL" : "http://loodibee.com/wp-content/uploads/nfl-atlanta-falcons-team-logo-2-300x300.png",

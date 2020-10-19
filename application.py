@@ -46,16 +46,16 @@ def gen_submit():
 
 @application.route('/logs',  methods = ['POST', 'GET'])
 def picks():
-	access = helper.Logs
+	access = helper.Show_Logs
 	if request.method == "POST":
-		helper.Logs = int(request.form['logs'])
+		helper.Show_Logs = int(request.form['logs'])
 		return("Success")
 	if request.method == "GET":
 		if access:
 			nflpicks,header = helper.get_nflpicks()
 			scores = helper.check_scores()
 			log = helper.get_log()
-			return render_template('log.html', nflpicks=nflpicks, header=header, logs=log, winners=scores) 
+			return render_template('log.html', nflpicks=nflpicks, header=header, winners=scores) 
 		else:
 			return "<h1>Come back once the first game starts on sunday</h1>"
 
@@ -64,7 +64,7 @@ def admin_logs():
 	nflpicks,header = helper.get_nflpicks()
 	scores = helper.check_scores()
 	log = helper.get_log()
-	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log, winners=scores, log=helper.Logs)
+	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log, winners=scores, log=helper.Show_Logs)
 	
 if __name__ == '__main__':
 	DEV = 1
