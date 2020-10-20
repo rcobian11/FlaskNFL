@@ -1,6 +1,7 @@
 picks.csv
 log.txt
 test.py
+Notes.txt
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
