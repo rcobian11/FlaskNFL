@@ -33,5 +33,7 @@ Similar to admin_logs in that it shows a table of submitted picks but does not s
 ![image of logs.html](https://github.com/rcobian11/FlaskNFL/blob/master/Images/logs_example.jpg)
 
 ## TODO
+- Strip whitespaces from names 
+- Make toggle switch to disallow submiting picks once games start
 - Change highlight condition from not pre to active or completed
-- Look into making a possible manual config file version that can be used when games are rescheduled
+- update example image on github to reflect new updates
