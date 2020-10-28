@@ -28,13 +28,16 @@ def submit():
 	config_len = helper.file_len("config.csv")
 	picks = []
 	if request.method == 'POST':
-		name = request.form['name'].strip()
-		for ctr in range(1,config_len+1):
-			pick = request.form['pick' + str(ctr)]
-			picks.append(pick)
-		points = request.form['points']
-		helper.submit_picks(name, picks, points, DEV)
-		return render_template("picks_submited.html", gif=helper.Gif)
+		if helper.Hide_forms:
+			return ("<h1>Picks not submitted games have already started</h1>")
+		else:
+			name = request.form['name'].strip()
+			for ctr in range(1,config_len+1):
+				pick = request.form['pick' + str(ctr)]
+				picks.append(pick)
+			points = request.form['points']
+			helper.submit_picks(name, picks, points, DEV)
+			return render_template("picks_submited.html", gif=helper.Gif)
 	return 'done'
 
 @application.route('/gen_config')
