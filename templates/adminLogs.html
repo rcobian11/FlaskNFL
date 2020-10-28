@@ -117,20 +117,6 @@
 				document.getElementById("log").checked = true;
 			</script>
 		{% endif %}
-		<script type="text/javascript">
-			function tableClick(x){
-				var xhttp = new XMLHttpRequest();
-				if(x.checked){
-					xhttp.open("POST", "/logs", true);
-					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					xhttp.send("logs=1");
-				}else{
-					xhttp.open("POST", "/logs", true);
-					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					xhttp.send("logs=0");
-				}
-			}
-		</script>
 		<h3>Hide form</h3>
 		<!-- Rounded switch for forms-->
 		<label class="switch">
@@ -153,6 +139,19 @@
 					xhttp.open("POST", "/", true);
 					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 					xhttp.send("Forms=0");
+				}
+			}
+
+			function tableClick(x){
+				var xhttp = new XMLHttpRequest();
+				if(x.checked){
+					xhttp.open("POST", "/logs", true);
+					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					xhttp.send("logs=1");
+				}else{
+					xhttp.open("POST", "/logs", true);
+					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					xhttp.send("logs=0");
 				}
 			}
 		</script>

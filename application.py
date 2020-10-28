@@ -16,7 +16,6 @@ def index():
 		helper.Hide_forms = int(request.form['Forms'])
 		return("Success")
 	if request.method == "GET":
-		print(helper.Hide_forms)
 		if not helper.Hide_forms:
 			PICKS = helper.get_picks()
 			config_len = helper.file_len("config.csv")
