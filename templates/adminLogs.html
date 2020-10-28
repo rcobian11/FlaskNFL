@@ -107,9 +107,9 @@
 			<br>
 		{% endfor %}<br>
 		<h3>Turn on table</h3>
-		<!-- Rounded switch -->
+		<!-- Rounded switch for logs-->
 		<label class="switch">
-		  <input type="checkbox" id='log' onclick="sliderClick(this)">
+		  <input type="checkbox" id='log' onclick="tableClick(this)">
 		  <span class="slider round"></span>
 		</label>
 		{% if log %}
@@ -118,7 +118,7 @@
 			</script>
 		{% endif %}
 		<script type="text/javascript">
-			function sliderClick(x){
+			function tableClick(x){
 				var xhttp = new XMLHttpRequest();
 				if(x.checked){
 					xhttp.open("POST", "/logs", true);
@@ -128,6 +128,31 @@
 					xhttp.open("POST", "/logs", true);
 					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 					xhttp.send("logs=0");
+				}
+			}
+		</script>
+		<h3>Hide form</h3>
+		<!-- Rounded switch for forms-->
+		<label class="switch">
+		  <input type="checkbox" id='forms' onclick="formClick(this)">
+		  <span class="slider round"></span>
+		</label>
+		{% if forms %}
+			<script type="text/javascript">
+				document.getElementById("forms").checked = true;
+			</script>
+		{% endif %}
+		<script type="text/javascript">
+			function formClick(x){
+				var xhttp = new XMLHttpRequest();
+				if(x.checked){
+					xhttp.open("POST", "/", true);
+					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					xhttp.send("Forms=1");
+				}else{
+					xhttp.open("POST", "/", true);
+					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					xhttp.send("Forms=0");
 				}
 			}
 		</script>

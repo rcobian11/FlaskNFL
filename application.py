@@ -10,18 +10,26 @@ Boo-ena suerte: https://media.giphy.com/media/9SIY0mFMOho1duVcP6/giphy.gif
 simpsons gl: https://media.giphy.com/media/HXF45CT8cvzZC/giphy.gif
 '''
 
-@application.route('/')
+@application.route('/', methods = ['POST', 'GET'])
 def index():
-	PICKS = helper.get_picks()
-	config_len = helper.file_len("config.csv")
-	return render_template('picks.html', picks=PICKS, ctr=range(1,config_len+1), logos=helper.nfl_logos)
+	if request.method == "POST":
+		helper.Hide_forms = int(request.form['Forms'])
+		return("Success")
+	if request.method == "GET":
+		print(helper.Hide_forms)
+		if not helper.Hide_forms:
+			PICKS = helper.get_picks()
+			config_len = helper.file_len("config.csv")
+			return render_template('picks.html', picks=PICKS, ctr=range(1,config_len+1), logos=helper.nfl_logos)
+		else:
+			return redirect(url_for("picks"))
 
 @application.route('/submit', methods = ['POST', 'GET'])
 def submit():
 	config_len = helper.file_len("config.csv")
 	picks = []
 	if request.method == 'POST':
-		name = request.form['name']
+		name = request.form['name'].strip()
 		for ctr in range(1,config_len+1):
 			pick = request.form['pick' + str(ctr)]
 			picks.append(pick)
@@ -64,7 +72,8 @@ def admin_logs():
 	nflpicks,header = helper.get_nflpicks()
 	scores = helper.check_scores()
 	log = helper.get_log()
-	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log, winners=scores, log=helper.Show_Logs)
+	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log, winners=scores, 
+		log=helper.Show_Logs, forms=helper.Hide_forms)
 	
 if __name__ == '__main__':
 	DEV = 1
