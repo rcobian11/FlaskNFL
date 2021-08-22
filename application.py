@@ -65,7 +65,7 @@ def picks():
 			nflpicks,header = helper.get_nflpicks()
 			scores = helper.check_scores()
 			log = helper.get_log()
-			return render_template('log.html', nflpicks=nflpicks, header=header, winners=scores) 
+			return render_template('log.html', nflpicks=nflpicks, header=header, winners=scores, logos=helper.nfl_logos) 
 		else:
 			return "<h1>Come back once the first game starts on sunday</h1>"
 
@@ -79,4 +79,4 @@ def admin_logs():
 	
 if __name__ == '__main__':
 	DEV = 1
-	application.run(debug=True, host="0.0.0.0")
+	application.run(debug=True)

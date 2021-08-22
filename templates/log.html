@@ -5,6 +5,9 @@
 		text-align: center;
 	}
 </style>
+	<head>
+		<meta http-equiv="refresh" content="200">
+	</head>
 	<body>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<h1>Table of picks</h1><br>
@@ -56,5 +59,29 @@
 			{% endfor %}
 			</tr>
 		</table>
+		
+		{% for i in range(16) %}
+			<p id={{i}}></p>
+			<img id="t1{{i}}" src="{{logos['LV']}}">
+		{% endfor %}
+		<script type="text/javascript">
+			let request = new XMLHttpRequest();
+			request.open("GET", "http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard");
+			request.send();
+			request.onload = () => {
+				console.log(request);
+				if (request.status === 200) {
+					result = JSON.parse(request.response)['events']
+					for (i = 0; i < result.length; i++) {
+						game = result[i];
+						t1 = game['competitions'][0]['competitors'][0]['team']['abbreviation'];
+						t2 = game['competitions'][0]['competitors'][1]['team']['abbreviation'];
+						document.getElementById(i.toString()).innerHTML = t1 + "   " + t2;
+						console.log("{{logos['t1']}}".replace("t1",t1));
+						document.getElementById('t1'+i.toString()).src = "{{logos['t1']}}".replace("t1",t1);
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
