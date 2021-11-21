@@ -59,11 +59,6 @@
 			{% endfor %}
 			</tr>
 		</table>
-		
-		{% for i in range(16) %}
-			<p id={{i}}></p>
-			<img id="t1{{i}}" src="{{logos['LV']}}">
-		{% endfor %}
 		<script type="text/javascript">
 			let request = new XMLHttpRequest();
 			request.open("GET", "http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard");
