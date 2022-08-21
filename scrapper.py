@@ -1,40 +1,8 @@
 from bs4 import BeautifulSoup
+import helper
 import requests, argparse, urllib.parse, urllib.request, json
 
-#gets the team name and returns as string
-def _get_team(pos):
-    ctr = 0
-    for num, elem in enumerate(pos):
-        if elem == ':':
-            ctr += 1
-        if ctr == 2:
-            team = pos[num + 1:-1].strip('"')
-            break
-    return(team)
-
-#gets the spread, strips extra chars, and returns as float
-def _get_points(pos):
-    #ctr counts number of '"' 
-    ctr = 0
-    for num, elem in enumerate(pos):
-        if elem == '"':
-            ctr += 1
-        if ctr == 3:
-            num2 = num+1
-            while(pos[num2] != '"'):
-                num2 += 1
-            points = pos[num + 1: num2]
-            break
-    #if number is positive return float
-    if points == "":
-        return 0.25
-    elif points[0] == '+':
-        return(float(points[1:]))
-    elif points[0] == 'E':
-        return 0.0
-    #else convert number to negative and return as float
-    else:
-        return(float(points[1:]) * -1)
+API_KEY = open("keys.txt", 'r').readline()
 
 def get_date():
     #gets date
@@ -48,31 +16,17 @@ def get_date():
     date = date[-2:]
     return(int(date))
 
-
 def build_config(url,num_games):
     teams = []
     spreads = []
-    target_html = requests.get(url)
-    soup = BeautifulSoup(target_html.text, "html.parser")
-    soup = soup.find(id="op-content-wrapper")
-
-    #gets teams in the table
-    for team in soup.find_all('div', "op-matchup-wrapper football"):
-        top = team.find("div","op-matchup-team-wrapper").div['data-op-name'] #home team
-        bot = team.find("div","op-matchup-team-wrapper").div.next_sibling['data-op-name'] #away team
-        top_team = _get_team(top)
-        bot_team = _get_team(bot)
-        teams.append((top_team,bot_team))
-        #print("{} vs {}".format(top_team, bot_team))
-
-    #gets the spread which is stored in junk
-    for junk in soup.find_all('div', 'op-item-row-wrapper not-futures'): 
-        try:
-            points = junk.find_all('div', 'op-first-row')[1].div['data-op-info']
-            spreads.append(_get_points(points))
-        except IndexError:
-            points = junk.find_all('div', 'op-first-row')[2].div['data-op-info']
-            spreads.append(_get_points(points))
+    data = requests.get(f"{url}/v4/sports/americanfootball_nfl/odds/?apiKey={API_KEY}&regions=us&markets=spreads").content
+    json_data = json.loads(data)
+    for num,game in enumerate(json_data):
+        start_time = game["commence_time"]
+        odds = game["bookmakers"][0]["markets"][0]["outcomes"][0]
+        spreads.append(float(odds["point"]))
+        name_field = game["bookmakers"][0]["markets"][0]["outcomes"]
+        teams.append((helper.nfl_abrv[name_field[0]["name"]], helper.nfl_abrv[name_field[1]["name"]]))
 
     config = open("config.csv", "w")
     num = 0
