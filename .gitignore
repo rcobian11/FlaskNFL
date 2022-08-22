@@ -3,6 +3,7 @@ log.txt
 test.py
 Notes.txt
 keys.txt
+venv
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

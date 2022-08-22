@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, url_for
 import argparse, scrapper
 import helper
-application = Flask(__name__)
+application = app = Flask(__name__)
 DEV = 0
 
 '''
