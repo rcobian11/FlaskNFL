@@ -33,5 +33,6 @@ Similar to admin_logs in that it shows a table of submitted picks but does not s
 ![image of logs.html](https://github.com/rcobian11/FlaskNFL/blob/master/Images/logs_example.jpg)
 
 ## TODO
-- Change highlight condition from not pre to active or completed
-- update example image on github to reflect new updates
+- Auto turn off form first game of the weekend 
+- Change time zones to EST
+- Fix name space issue 
