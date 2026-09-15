@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}NFL Picks{% endblock %}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<header class="site-header">
+		<div class="brand">
+			<div class="brand-mark">NFL</div>
+			<div><h1>Sunday Picks</h1><p>Make your call. Track the leaderboard.</p></div>
+		</div>
+	</header>
+	<main class="container">{% block content %}{% endblock %}</main>
+</body>
+</html>

@@ -1,25 +1,9 @@
-<!Doc<!DOCTYPE html>
-<html>
-	<body>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<style type="text/css">
-			div {
-				text-align: center;
-				padding: 20px;
-				display: grid;
-				height: 100%%;
-			}
-
-			img{
-				max-width: 100%;
-				max-height: 100vh;
-				margin: auto;
-				
-			}
-		</style>
-		<div><h1 style='color:green'>Your picks have been submited </h1></div>
-		<div ><img src="{{ gif }}"></div>
-		<br>
-		<div><h1>Dont forget to send your $10!</h1></div>
-	</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Picks Submitted | NFL Picks{% endblock %}
+{% block content %}
+<div class="card notice">
+	<div class="eyebrow">You're locked in</div><h2>Your picks are submitted!</h2>
+	<p class="intro">Good luck this week, and don't forget to send your $10.</p>
+	{% if gif %}<p><img class="gif" src="{{ gif }}" alt="Celebration"></p>{% endif %}
+</div>
+{% endblock %}

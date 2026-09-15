@@ -1,166 +1,42 @@
-<!--nfl site -->
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>NFL Picks</title>
-	</head>
-	<body onload="labelClick()">
-		<style type="text/css">
-			table {
-				border-collapse: collapse;
-				border: 1px solid black;
-				margin-right: auto;
-				margin-left: auto;
-			}
-
-			th {
-				background-color: #c4c4c4;
-				font-size: 20px;
-				padding: 10px;
-				border: 1px solid black;
-			}
-
-			td {
-				border: 1px solid black;
-				vertical-align: middle;
-				text-align: center;
-				
-			}
-
-			img {
-				width: 75px;
-				height: 75px;
-			}
-
-			div {
-				text-align: center;
-				padding: 20px;
-			}
-
-			p {
-				display: inline;
-				font-size: 25px;
-			}
-
-			p.teams {
-				display: block;
-				font-size: 18px;
-				margin-bottom: 5px;
-				margin-top: 0px;
-				padding-top: 15px;
-			}
-
-			input.radio {
-				display: none;
-				margin-bottom: 10px; 
-			}
-			
-			label{
-				display: block;
-				min-height: 100%;
-				cursor: default;
-				width: 130px;
-				height: 115px;
-			}
-
-			input[type=submit] {
-				height: 40px;
-				width: 100px;
-			}
-
-			input[type=text] {
-				font-size: 18px;
-				width: 100px;
-			}
-
-		</style>
-		<form method='post' action="submit", name="picks", onsubmit="return validateForm()">
-		<div><p>Name: </p><input type='text' name='name' value=''></div>
-		<table id = 'picks'>
-			<tr>
-				<th>
-					Favorite
-				</th>
-				<th>
-					Spread
-				</th>
-				<th>
-					Underdog
-				</th>
-			</tr>
-			{% for team1,spread,team2 in picks %}
-				<tr>
-					<td class = 'team1'>
-						<label class="team1" onclick="labelClick();" id="t1pick{{loop.index}}">
-							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team1}}"
-							id="int1pick{{loop.index}}">
-							<p class = 'teams'>{{team1}}</p>
-							<img id="team1" src="{{logos[team1]}}">
-						</label>
-					</td>
-					<td class = "spread">
-						<p>{{spread}}</p>
-					</td>
-					<td class = 'team2'>
-						<label class="team2" onclick="labelClick()" id="t2pick{{loop.index}}">
-							<input class='radio' type="radio" name="pick{{loop.index}}" value="{{team2}}"
-							id="int2pick{{loop.index}}">
-							<p class='teams'>{{team2}}</p>
-							<img id="team2" src="{{logos[team2]}}">
-						</label>
-					</td>
-				</tr>
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+	<div class="eyebrow">Weekly matchup</div>
+	<h2>Who are you picking?</h2>
+	<p class="intro">Choose a team in every matchup, then submit your confidence points.</p>
+</section>
+<form method="post" action="{{ url_for('submit') }}" name="picks" onsubmit="return validateForm()">
+	<div class="card">
+		<div class="form-bar">
+			<div class="field"><label for="name">Your name</label><input id="name" type="text" name="name" autocomplete="name" required placeholder="Enter your name"></div>
+		</div>
+		<div class="games">
+			{% for team1, spread, team2 in picks %}
+			<div class="game">
+				<label class="team-option">
+					<input type="radio" name="pick{{ loop.index }}" value="{{ team1 }}" required>
+					<span class="team-name">{{ team1 }}</span><img src="{{ logos[team1] }}" alt="{{ team1 }} logo">
+				</label>
+				<div class="spread">Spread<strong>{{ spread }}</strong></div>
+				<label class="team-option">
+					<input type="radio" name="pick{{ loop.index }}" value="{{ team2 }}" required>
+					<span class="team-name">{{ team2 }}</span><img src="{{ logos[team2] }}" alt="{{ team2 }} logo">
+				</label>
+			</div>
 			{% endfor %}
-		</table>
-		<div><p>Points: </p><input type='text' name='points' value=''></div>
-		<div><input type='submit' name='submit' value='Submit'></div>
-		</form>
-
-		<script type="text/javascript">
-			function validateForm() {
-				var name = document.forms['picks']['name'].value;
-				if(name == "") {
-					alert("Enter your name");
-					return false
-				}
-				{% for num in ctr %}
-					var pick{{num}} = document.forms['picks']['pick{{num}}'].value;
-					if(pick{{num}} == "") {
-						alert("Must make all picks");
-						return false;
-					}
-				{% endfor %}
-				var points = document.forms['picks']['points'].value;
-				if(points == "") {
-					alert("Enter points");
-					return false;
-				}
-				if(isNaN(points)) {
-					alert("Points must be a number");
-					return false;
-				}
-			}
-
-			function labelClick() {
-				{% for num in ctr %}
-					var labelId = "t1pick{{num}}";
-					var inputId = "in"+labelId;
-					if(document.getElementById(inputId).checked){
-						document.getElementById(labelId).style.backgroundColor = '#41e31e';
-					}else{
-						document.getElementById(labelId).style.backgroundColor = 'white';
-					}
-
-					var labelId = "t2pick{{num}}";
-					var inputId = "in"+labelId;
-					if(document.getElementById(inputId).checked){
-						document.getElementById(labelId).style.backgroundColor = '#41e31e';
-					}else{
-						document.getElementById(labelId).style.backgroundColor = 'white';
-					}
-				{% endfor %}
-			}
-		</script>
-	</body>
-</html>
+		</div>
+		<div class="submit-row">
+			<div class="field"><label for="points">Confidence points</label><input id="points" type="number" name="points" min="0" required placeholder="10"></div>
+			<span class="hint">All picks are required.</span>
+			<button class="btn" type="submit">Submit picks</button>
+		</div>
+	</div>
+</form>
+<script>
+	function validateForm() {
+		const points = Number(document.forms.picks.points.value);
+		if (!Number.isFinite(points) || points < 0) { alert("Confidence points must be a positive number."); return false; }
+		return true;
+	}
+</script>
+{% endblock %}

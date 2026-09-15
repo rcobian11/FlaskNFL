@@ -1,82 +1,36 @@
-<!DOCTYPE html>
-<html>
-<style type="text/css">
-	td {
-		text-align: center;
-	}
-</style>
-	<head>
-		<meta http-equiv="refresh" content="200">
-	</head>
-	<body>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<h1>Table of picks</h1><br>
-		<table id = "picks" border = 1 style="width:60%">
-			<tr>
-				{% for data in header %}
-					<th>
-					{% for part in data %}
-						{{part}}<br>
-					{% endfor %}
-					</th>
-				{% endfor %}
-			</tr>
-			{% for pick in nflpicks %}
-				<script type="text/javascript">var {{pick[0]}}_score = 0;</script>
-				<tr>
-				{% for data in pick %}
-					{% set pick_loop = loop %}
-					<td id="pick{{pick[0]}}{{loop.index}}">{{data}}</td>
-					{% for team in winners %}
-						{% if data == team %}
-							<script type="text/javascript">
-								window.{{pick[0]}}_score += 1;
-								document.getElementById("pick{{pick[0]}}{{pick_loop.index}}").style.backgroundColor = '#2dc90a';
-							</script>
-						{% endif %}
-					{% endfor %}
-				{% endfor %}
-				</tr>
-			{% endfor %}
-		</table>
-		<br>
-		<h1>Leaderboard</h1>
-		<table id="leaderboard" border=1 >
-			<tr>
-				<th>
-					Name
-				</th>
-				<th>
-					Score
-				</th>
-			</tr>
-			{% for pick in nflpicks %}
-			<tr>
-				<td width="90px">{{pick[0]}}</td>
-				<td id="{{pick[0]}}" width="60px"><script>
-					document.getElementById("{{pick[0]}}").textContent = {{pick[0]}}_score;
-				</script></td>
-			{% endfor %}
-			</tr>
-		</table>
-		<script type="text/javascript">
-			let request = new XMLHttpRequest();
-			request.open("GET", "http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard");
-			request.send();
-			request.onload = () => {
-				console.log(request);
-				if (request.status === 200) {
-					result = JSON.parse(request.response)['events']
-					for (i = 0; i < result.length; i++) {
-						game = result[i];
-						t1 = game['competitions'][0]['competitors'][0]['team']['abbreviation'];
-						t2 = game['competitions'][0]['competitors'][1]['team']['abbreviation'];
-						document.getElementById(i.toString()).innerHTML = t1 + "   " + t2;
-						console.log("{{logos['t1']}}".replace("t1",t1));
-						document.getElementById('t1'+i.toString()).src = "{{logos['t1']}}".replace("t1",t1);
-					}
-				}
+{% extends "base.html" %}
+{% block title %}Leaderboard | NFL Picks{% endblock %}
+{% block content %}
+<section class="hero"><div class="eyebrow">Live results</div><h2>Leaderboard</h2><p class="intro">Winning picks are highlighted in green as games are completed.</p></section>
+<div class="card table-wrap">
+	<table id="leaderboard"><thead><tr><th>Rank</th><th>Player</th><th>Correct picks</th></tr></thead>
+	<tbody>{% for player in leaderboard %}<tr data-player="{{ player.name }}"><td>{{ loop.index }}</td><td><strong>{{ player.name }}</strong></td><td class="correct score-cell"><strong>{{ player.correct }}</strong></td></tr>{% else %}<tr><td class="empty" colspan="3">No picks submitted yet.</td></tr>{% endfor %}</tbody></table>
+</div>
+<div class="section-title"><h3>Pick breakdown</h3><span class="hint">Live updates enabled</span></div>
+<div class="card table-wrap">
+	<table id="picks"><thead><tr>{% for data in header %}<th>{% for part in data %}{{ part }}{% if not loop.last %}<br>{% endif %}{% endfor %}</th>{% endfor %}</tr></thead>
+	<tbody>{% for pick in nflpicks %}{% set row_index = loop.index0 %}<tr>{% for data in pick %}<td data-pick-row="{{ row_index }}" data-pick-index="{{ loop.index0 }}">{% if loop.first %}<strong>{{ data }}</strong>{% else %}{{ data }}{% endif %}</td>{% if data in winners %}<script>document.querySelector('[data-pick-row="{{ row_index }}"][data-pick-index="{{ loop.index0 }}"]').classList.add("winner");</script>{% endif %}{% endfor %}</tr>{% endfor %}</tbody></table>
+</div>
+<script>
+	async function updateLeaderboard() {
+		const response = await fetch("{{ url_for('leaderboard_data') }}", { cache: "no-store" });
+		if (!response.ok) return;
+		const data = await response.json();
+		const rows = new Map([...document.querySelectorAll("#leaderboard tbody tr[data-player]")].map(row => [row.dataset.player, row]));
+		data.leaderboard.forEach((player, index) => {
+			const row = rows.get(player.name);
+			if (row) {
+				row.cells[0].textContent = index + 1;
+				row.querySelector(".correct").textContent = player.correct;
+				row.parentElement.appendChild(row);
 			}
-		</script>
-	</body>
-</html>
+		});
+		document.querySelectorAll("[data-pick-row][data-pick-index]").forEach(cell => {
+			const row = Number(cell.dataset.pickRow);
+			const pick = Number(cell.dataset.pickIndex) - 1;
+			cell.classList.toggle("winner", pick >= 0 && data.winners[pick] !== null && cell.textContent.trim() === data.winners[pick]);
+		});
+	}
+	setInterval(updateLeaderboard, 30000);
+</script>
+{% endblock %}

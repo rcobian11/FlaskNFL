@@ -1,4 +1,5 @@
 import boto3, csv, pytz, scrapper
+import os
 from datetime import datetime
 Gif = ""
 Show_Logs = 0
@@ -136,6 +137,8 @@ def submit_picks(name, picks, points, dev):
 	adds timestamp to log file when picks are submmited 
 	'''
 	#write to picks file
+	if not os.path.exists("picks.csv"):
+		gen_nflpick()
 	check_repeat(name)
 	file = open("picks.csv", 'a')
 	file.write("\n")
@@ -234,8 +237,27 @@ def check_scores() -> list:
 				else:
 					winners.append(Under_team)
 			except KeyError:
-				continue
+				# Keep the result aligned with config.csv while a game is pending.
+				winners.append(None)
 	return winners
+
+def get_leaderboard(nflpicks, winners):
+	'''Return each user's completed-game score, ordered highest first.'''
+	leaderboard = []
+	for row in nflpicks:
+		pick_values = row[1:1 + len(winners)]
+		correct = sum(
+			pick == winner
+			for pick, winner in zip(pick_values, winners)
+			if winner is not None
+		)
+		leaderboard.append({
+			"name": row[0],
+			"correct": correct,
+			"completed": sum(winner is not None for winner in winners),
+			"points": row[-1] if row else "",
+		})
+	return sorted(leaderboard, key=lambda entry: (-entry["correct"], entry["name"].lower()))
 			
 
 if __name__ == '__main__':

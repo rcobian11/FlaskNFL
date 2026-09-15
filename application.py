@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, jsonify, redirect, render_template, request, url_for
 import argparse, scrapper
 import helper
 application = app = Flask(__name__)
@@ -29,7 +29,11 @@ def submit():
 	picks = []
 	if request.method == 'POST':
 		if helper.Hide_forms:
-			return ("<h1>Picks not submitted games have already started</h1>")
+			return render_template(
+				"notice.html",
+				title="Picks are closed",
+				message="The games have already started, so this week's picks can no longer be submitted.",
+			)
 		else:
 			name = request.form['name'].strip()
 			for ctr in range(1,config_len+1):
@@ -38,7 +42,11 @@ def submit():
 			points = request.form['points']
 			helper.submit_picks(name, picks, points, DEV)
 			return render_template("picks_submited.html", gif=helper.Gif)
-	return 'done'
+	return render_template(
+		"notice.html",
+		title="Nothing to submit",
+		message="Open the picks page to submit this week's selections.",
+	)
 
 @application.route('/gen_config')
 def gen_config():
@@ -52,7 +60,7 @@ def gen_submit():
 		games = int(request.form['games'])
 		scrapper.build_config(url, games)
 	helper.gen_nflpick()
-	return "Success"
+	return redirect(url_for("index"))
 
 @application.route('/logs',  methods = ['POST', 'GET'])
 def picks():
@@ -65,17 +73,32 @@ def picks():
 			nflpicks,header = helper.get_nflpicks()
 			scores = helper.check_scores()
 			log = helper.get_log()
-			return render_template('log.html', nflpicks=nflpicks, header=header, winners=scores, logos=helper.nfl_logos) 
+			leaderboard = helper.get_leaderboard(nflpicks, scores)
+			return render_template('log.html', nflpicks=nflpicks, header=header, winners=scores, leaderboard=leaderboard, logos=helper.nfl_logos)
 		else:
-			return "<h1>Come back once the first game starts on sunday</h1>"
+			return render_template(
+				"notice.html",
+				title="Leaderboard coming soon",
+				message="Come back once the first game starts on Sunday.",
+			)
+
+@application.route('/leaderboard-data')
+def leaderboard_data():
+	nflpicks, _ = helper.get_nflpicks()
+	winners = helper.check_scores()
+	return jsonify({
+		"leaderboard": helper.get_leaderboard(nflpicks, winners),
+		"winners": winners,
+	})
 
 @application.route('/admin_logs')
 def admin_logs():
 	nflpicks,header = helper.get_nflpicks()
 	scores = helper.check_scores()
 	log = helper.get_log()
+	leaderboard = helper.get_leaderboard(nflpicks, scores)
 	return render_template('adminLogs.html', nflpicks=nflpicks, header=header, logs=log, winners=scores, 
-		log=helper.Show_Logs, forms=helper.Hide_forms)
+		leaderboard=leaderboard, log=helper.Show_Logs, forms=helper.Hide_forms)
 	
 if __name__ == '__main__':
 	DEV = 1
