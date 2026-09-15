@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | NFL Picks{% endblock %}
+{% block content %}
+<div class="card auth-card">
+	<div class="eyebrow">Sunday Picks</div>
+	<h2>{{ title }}</h2>
+	{% if error %}<p class="error">{{ error }}</p>{% endif %}
+	<form method="post">
+		{% if register %}<div class="field"><label for="name">Name</label><input id="name" type="text" name="name" autocomplete="name" required value="{{ name or '' }}"></div>{% endif %}
+		<div class="field"><label for="email">Email</label><input id="email" type="email" name="email" autocomplete="email" required value="{{ email or '' }}"></div>
+		<div class="field"><label for="password">Password</label><input id="password" type="password" name="password" autocomplete="{{ 'new-password' if register else 'current-password' }}" required minlength="8"></div>
+		<button class="btn" type="submit">{{ "Create account" if register else "Log in" }}</button>
+	</form>
+	<p class="auth-switch">
+		{% if register %}Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+		{% else %}Need an account? <a href="{{ url_for('register') }}">Create one</a>{% endif %}
+	</p>
+</div>
+{% endblock %}

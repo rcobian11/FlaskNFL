@@ -10,3 +10,5 @@ venv
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .venv/*
+accounts.sqlite3
+game_times.json

@@ -19,6 +19,7 @@ def get_date():
 def build_config(url,num_games):
     teams = []
     spreads = []
+    start_times = []
     data = requests.get(f"{url}/v4/sports/americanfootball_nfl/odds/?apiKey={API_KEY}&regions=us&markets=spreads").content
     json_data = json.loads(data)
     for num,game in enumerate(json_data):
@@ -27,6 +28,9 @@ def build_config(url,num_games):
         spreads.append(float(odds["point"]))
         name_field = game["bookmakers"][0]["markets"][0]["outcomes"]
         teams.append((helper.nfl_abrv[name_field[0]["name"]], helper.nfl_abrv[name_field[1]["name"]]))
+        start_times.append(start_time)
+        if len(teams) == num_games:
+            break
 
     config = open("config.csv", "w")
     num = 0
@@ -45,6 +49,8 @@ def build_config(url,num_games):
                 point += 0.5
             config.write("{},-{},{}\n".format(team[1].upper(),str(point),team[0].upper()))
     config.close()
+    with open("game_times.json", "w") as schedule:
+        json.dump(start_times, schedule)
 
 def get_scores() -> dict:
     scores = {}

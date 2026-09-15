@@ -2,6 +2,13 @@
 Web app which gets picks from user and stores selection in a csv file. Python Flask backend html/js front end(Looking to incorporate angularJS).
 
 ## Usage
+### Accounts
+Users create an account at `/register` and log in at `/login` before submitting picks.
+Passwords are stored as hashes, and each account's current-week selections and confidence
+points are stored in the local `accounts.sqlite3` database. Submitting again updates that
+account's saved picks for the current configuration. Set `FLASK_SECRET_KEY` in production
+to a long, random value so login sessions remain secure.
+
 ### AWS ElasticBeanstalk (Production)
 If deployed to AWS Elastic Beanstalk Production version will be ran and picks.csv will be stored in aws S3 bucket.
 

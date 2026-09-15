@@ -1,6 +1,7 @@
 import boto3, csv, pytz, scrapper
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+import json
 Gif = ""
 Show_Logs = 0
 Hide_forms = 0
@@ -117,6 +118,39 @@ def get_picks():
 		for row in reader:
 			picks.append((row['FAV'], row['SPREAD'], row['UNDER']))
 	return picks
+
+def picks_closed():
+	"""Return whether the manual override is enabled or every game has started."""
+	if Hide_forms:
+		return True
+	statuses = game_started()
+	return bool(statuses) and all(statuses)
+
+def game_started():
+	"""Return a start-status list aligned with the configured games."""
+	try:
+		with open("game_times.json") as schedule:
+			start_times = json.load(schedule)
+		started = [
+			datetime.now(timezone.utc) >= datetime.fromisoformat(
+				value.replace("Z", "+00:00")
+			).astimezone(timezone.utc)
+			for value in start_times
+		]
+	except (FileNotFoundError, ValueError, TypeError):
+		return [False] * file_len("config.csv")
+	return started
+
+def picks_are_locked():
+	"""Return whether the manual override is enabled."""
+	return bool(Hide_forms)
+
+def started_game_indices():
+	"""Return indices for games whose scheduled start time has passed."""
+	return {
+		index for index, started in enumerate(game_started())
+		if started
+	}
 
 def check_repeat(name):
 	with open("picks.csv", "r+") as picks:
