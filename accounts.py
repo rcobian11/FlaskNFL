@@ -6,7 +6,10 @@ from datetime import datetime, timezone
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-DATABASE_PATH = os.path.join(os.path.dirname(__file__), "accounts.sqlite3")
+DATABASE_PATH = os.environ.get(
+    "DATABASE_PATH",
+    os.path.join(os.path.dirname(__file__), "accounts.sqlite3"),
+)
 
 
 def _connect():

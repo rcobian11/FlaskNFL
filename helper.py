@@ -5,6 +5,7 @@ import json
 Gif = ""
 Show_Logs = 0
 Hide_forms = 0
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 nfl_abrv = {
 "Arizona Cardinals" : "ARI",
 "Atlanta Falcons" : "ATL",
@@ -81,7 +82,7 @@ def file_len(fname):
 	@return int: Length of file as int
 	checks length of file and returns value
 	'''
-	with open(fname) as f:
+	with open(os.path.join(BASE_DIR, fname)) as f:
 		for i, l in enumerate(f):
 			pass
 	f.close()
@@ -92,11 +93,11 @@ def gen_nflpick():
 	Creates and formates both picks.csv and log.txt. files are created and stored in
 	same directory that the program is ran in.
 	'''
-	nflpicks = open("picks.csv", 'w')
-	log = open("log.txt", 'w')
+	nflpicks = open(os.path.join(BASE_DIR, "picks.csv"), 'w')
+	log = open(os.path.join(BASE_DIR, "log.txt"), 'w')
 	log.write("Log file\n")
 	log.close()
-	with open('config.csv', newline = '') as csvfile:
+	with open(os.path.join(BASE_DIR, 'config.csv'), newline = '') as csvfile:
 		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])#fieldnames are the headers
 		pickNum = 1
 		nflpicks.write(",")
@@ -113,7 +114,7 @@ def get_picks():
 	iterates through config.csv and stores values in list picks
 	'''
 	picks = []
-	with open('config.csv', newline = '') as csvfile:
+	with open(os.path.join(BASE_DIR, 'config.csv'), newline = '') as csvfile:
 		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])#fieldnames are the headers
 		for row in reader:
 			picks.append((row['FAV'], row['SPREAD'], row['UNDER']))
@@ -129,7 +130,7 @@ def picks_closed():
 def game_started():
 	"""Return a start-status list aligned with the configured games."""
 	try:
-		with open("game_times.json") as schedule:
+		with open(os.path.join(BASE_DIR, "game_times.json")) as schedule:
 			start_times = json.load(schedule)
 		started = [
 			datetime.now(timezone.utc) >= datetime.fromisoformat(
@@ -153,7 +154,7 @@ def started_game_indices():
 	}
 
 def check_repeat(name):
-	with open("picks.csv", "r+") as picks:
+	with open(os.path.join(BASE_DIR, "picks.csv"), "r+") as picks:
 		line = picks.readlines()
 		picks.seek(0)
 		for i in line:
@@ -171,10 +172,10 @@ def submit_picks(name, picks, points, dev):
 	adds timestamp to log file when picks are submmited 
 	'''
 	#write to picks file
-	if not os.path.exists("picks.csv"):
+	if not os.path.exists(os.path.join(BASE_DIR, "picks.csv")):
 		gen_nflpick()
 	check_repeat(name)
-	file = open("picks.csv", 'a')
+	file = open(os.path.join(BASE_DIR, "picks.csv"), 'a')
 	file.write("\n")
 	file.write(name + ",")
 	for pick in picks:
@@ -184,7 +185,7 @@ def submit_picks(name, picks, points, dev):
 	#write to log file
 	tz_la = pytz.timezone("America/Los_Angeles")
 	date = datetime.now(tz_la)
-	log = open("log.txt", 'a')
+	log = open(os.path.join(BASE_DIR, "log.txt"), 'a')
 	log.write(name + ";")
 	log.write("{}/{}".format(date.month, date.day))
 	log.write("  {:02d}:{:02d}:{:02d}".format(date.hour, date.minute, date.second))
@@ -210,7 +211,7 @@ def get_nflpicks():
 	header = []
 	nflpicks = []
 	try:
-		with open('picks.csv', newline = '') as csvfile:
+		with open(os.path.join(BASE_DIR, 'picks.csv'), newline = '') as csvfile:
 			reader = csv.DictReader(csvfile)
 			ctr = 0
 			for row in reader:
@@ -232,7 +233,7 @@ def get_log():
 	'''
 	entry = []
 	try:
-		with open('log.txt', 'r') as log:
+		with open(os.path.join(BASE_DIR, 'log.txt'), 'r') as log:
 			for line in log:
 				entry.append(line.split(";"))
 	except FileNotFoundError:
@@ -257,7 +258,7 @@ def check_scores() -> list:
 	'''
 	scores = scrapper.get_scores()
 	winners = []
-	with open('config.csv', newline = '') as csvfile:
+	with open(os.path.join(BASE_DIR, 'config.csv'), newline = '') as csvfile:
 		reader = csv.DictReader(csvfile, fieldnames = ['FAV', 'SPREAD', 'UNDER'])#fieldnames are the headers
 		for row in reader:
 			try:

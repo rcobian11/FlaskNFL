@@ -10,7 +10,19 @@ account's saved picks for the current configuration. Set `FLASK_SECRET_KEY` in p
 to a long, random value so login sessions remain secure.
 
 ### AWS ElasticBeanstalk (Production)
-If deployed to AWS Elastic Beanstalk Production version will be ran and picks.csv will be stored in aws S3 bucket.
+Deploy with the Python platform; the included `Procfile` starts Gunicorn with the
+`application:application` WSGI entry point. Configure these Elastic Beanstalk
+environment properties:
+
+- `FLASK_SECRET_KEY`: a long, random value used to sign login sessions.
+- `ODDS_API_KEY`: the API key used by `/gen_submit`.
+- `DATABASE_PATH`: an absolute path to the SQLite database if a mounted persistent
+  volume is available. Without this setting it is stored beside the application.
+
+The application resolves its bundled configuration and templates from its own
+directory, so it does not depend on Elastic Beanstalk's current working directory.
+For multiple instances or durable production data, replace the local SQLite and
+CSV file storage with a shared durable storage solution or managed database.
 
 ### Local (Development)
 ```bash

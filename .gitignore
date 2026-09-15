@@ -12,3 +12,4 @@ venv
 .venv/*
 accounts.sqlite3
 game_times.json
+*.log

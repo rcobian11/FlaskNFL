@@ -18,7 +18,7 @@ def current_user():
 	return accounts.get_user(session["user_id"]) if session.get("user_id") else None
 
 def config_key():
-	with open("config.csv", "rb") as config:
+	with open(os.path.join(os.path.dirname(__file__), "config.csv"), "rb") as config:
 		return hashlib.sha256(config.read()).hexdigest()
 
 @application.route('/', methods = ['POST', 'GET'])

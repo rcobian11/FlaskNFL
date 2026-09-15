@@ -1,8 +1,13 @@
 from bs4 import BeautifulSoup
 import helper
 import requests, argparse, urllib.parse, urllib.request, json
+import os
 
-API_KEY = open("keys.txt", 'r').readline()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+API_KEY = os.environ.get("ODDS_API_KEY")
+if not API_KEY:
+    with open(os.path.join(BASE_DIR, "keys.txt")) as key_file:
+        API_KEY = key_file.readline().strip()
 
 def get_date():
     #gets date
@@ -32,7 +37,7 @@ def build_config(url,num_games):
         if len(teams) == num_games:
             break
 
-    config = open("config.csv", "w")
+    config = open(os.path.join(BASE_DIR, "config.csv"), "w")
     num = 0
 
     #build the config file
@@ -49,7 +54,7 @@ def build_config(url,num_games):
                 point += 0.5
             config.write("{},-{},{}\n".format(team[1].upper(),str(point),team[0].upper()))
     config.close()
-    with open("game_times.json", "w") as schedule:
+    with open(os.path.join(BASE_DIR, "game_times.json"), "w") as schedule:
         json.dump(start_times, schedule)
 
 def get_scores() -> dict:
